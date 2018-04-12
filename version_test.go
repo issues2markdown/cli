@@ -21,12 +21,9 @@ import (
 	"testing"
 
 	"github.com/repejota/issues2markdown"
-	log "github.com/sirupsen/logrus"
 )
 
 func TestShowVersionInfo(t *testing.T) {
-	log.SetLevel(log.FatalLevel)
-
 	expectedOutput := "version 1.2.3 build 91b49a2\n"
 	version := "1.2.3"
 	build := "91b49a2"
