@@ -20,10 +20,8 @@ package issues2markdown
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"html/template"
 	"log"
-	"net/url"
 	"strings"
 
 	"github.com/google/go-github/github"
@@ -35,32 +33,14 @@ const (
 {{ end }}`
 )
 
-// User ...
-type User struct {
-	Login string
+// QueryOptions ...
+type QueryOptions struct {
 }
 
-// Issue ...
-type Issue struct {
-	Title   string
-	URL     string
-	HTMLURL string
-}
-
-// Organization ...
-func (i *Issue) Organization() (string, error) {
-	parsedU, _ := url.Parse(i.URL)
-	parsedPartsPathU := strings.Split(parsedU.Path, "/")
-	organization := parsedPartsPathU[2]
-	return organization, nil
-}
-
-// Repository ...
-func (i *Issue) Repository() (string, error) {
-	parsedU, _ := url.Parse(i.URL)
-	parsedPartsPathU := strings.Split(parsedU.Path, "/")
-	repository := parsedPartsPathU[3]
-	return repository, nil
+// BuildQueryString ...
+func (qo *QueryOptions) BuildQueryString() string {
+	result := "type:issue archived:false"
+	return result
 }
 
 // IssuesToMarkdown ...
@@ -75,7 +55,7 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 }
 
 // Query ...
-func (im *IssuesToMarkdown) Query() ([]Issue, error) {
+func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	// create github client
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: "f8cb77e12d26827e5d235e93cae6bda4796236e1"},
@@ -92,9 +72,9 @@ func (im *IssuesToMarkdown) Query() ([]Issue, error) {
 	log.Printf("Created authenticated data for user: %s\n", im.User.Login)
 
 	// query issues
-	options := &github.SearchOptions{}
-	query := fmt.Sprintf("state:open type:issue author:%s archived:false", im.User.Login)
-	searchResult, _, err := client.Search.Issues(ctx, query, options)
+	githubOptions := &github.SearchOptions{}
+	query := options.BuildQueryString()
+	searchResult, _, err := client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
 		return nil, err
 	}
@@ -121,13 +101,4 @@ func (im *IssuesToMarkdown) Render(issues []Issue) (string, error) {
 	result := compiled.String()
 	result = strings.TrimRight(result, "\n") // trim the last linebreak
 	return result, nil
-}
-
-// GetOrgAndRepoFromIssueURL ...
-func (im *IssuesToMarkdown) GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
-	parsedU, _ := url.Parse(u)
-	parsedPartsPathU := strings.Split(parsedU.Path, "/")
-	organization := parsedPartsPathU[2]
-	repository := parsedPartsPathU[3]
-	return organization, repository, nil
 }
