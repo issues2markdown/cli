@@ -29,8 +29,18 @@ const (
 {{ end }}`
 )
 
+// IssuesToMarkdown ...
+type IssuesToMarkdown struct {
+}
+
+// NewIssuesToMarkdown ...
+func NewIssuesToMarkdown() *IssuesToMarkdown {
+	i2md := &IssuesToMarkdown{}
+	return i2md
+}
+
 // Fetch ...
-func Fetch() ([]github.Issue, error) {
+func (i *IssuesToMarkdown) Fetch() ([]github.Issue, error) {
 	// create authenticated client
 	provider, err := github.NewGithubProvider()
 	if err != nil {
@@ -45,7 +55,7 @@ func Fetch() ([]github.Issue, error) {
 }
 
 // Render ...
-func Render(issues []github.Issue) (bytes.Buffer, error) {
+func (i *IssuesToMarkdown) Render(issues []github.Issue) (bytes.Buffer, error) {
 	var result bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&result, issues)

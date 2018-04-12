@@ -35,16 +35,18 @@ var RootCmd = &cobra.Command{
 		log.SetFlags(0)
 		log.SetOutput(ioutil.Discard)
 
+		i2md := issues2markdown.NewIssuesToMarkdown()
+
 		log.Println("Fetching data ...")
 		// Fetch data from github
-		issues, err := issues2markdown.Fetch()
+		issues, err := i2md.Fetch()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		log.Println("Rendering data ...")
 		// Render data to markdown
-		result, err := issues2markdown.Render(issues)
+		result, err := i2md.Render(issues)
 		if err != nil {
 			log.Fatal(err)
 		}
