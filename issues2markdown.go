@@ -19,63 +19,35 @@ package issues2markdown
 
 import (
 	"bytes"
-	"context"
-	"fmt"
 	"html/template"
 
-	"github.com/google/go-github/github"
+	"github.com/repejota/issues2markdown/github"
 )
 
-// Issue ...
-type Issue struct {
-	Title      *string
-	Closed     bool
-	HTMLURL    *string
-	Repository string
-}
-
-// IssuesList ...
-type IssuesList struct {
-	Issues []Issue
-}
-
 const (
-	issuesTemplate = `{{ range .Issues }}- [ ] {{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	issuesTemplate = `{{ range . }}- [ ] {{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
+// Fetch ...
+func Fetch() ([]github.Issue, error) {
+	// create authenticated client
+	provider, err := github.NewGithubProvider()
+	if err != nil {
+		return nil, err
+	}
+	// query issues
+	issuesList, err := provider.QueryIssues()
+	if err != nil {
+		return nil, err
+	}
+	return issuesList, nil
+}
+
 // Render ...
-func Render(issues IssuesList) (bytes.Buffer, error) {
+func Render(issues []github.Issue) (bytes.Buffer, error) {
 	var result bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&result, issues)
 	return result, nil
-}
-
-// Fetch ...
-func Fetch() (IssuesList, error) {
-	var data IssuesList
-	ctx := context.Background()
-	client := github.NewClient(nil)
-	options := &github.SearchOptions{
-		Sort:  "created",
-		Order: "asc",
-	}
-	result, _, err := client.Search.Issues(ctx, "is:issue state:open", options)
-	if err != nil {
-		return data, err
-	}
-	for _, v := range result.Issues {
-		issue := Issue{
-			Title:   v.Title,
-			HTMLURL: v.HTMLURL,
-		}
-		organization, repository, err := GetOrgAndRepoFromIssueURL(*v.HTMLURL)
-		if err != nil {
-			return data, err
-		}
-		issue.Repository = fmt.Sprintf("%s/%s", organization, repository)
-		data.Issues = append(data.Issues, issue)
-	}
-	return data, nil
 }

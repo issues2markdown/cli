@@ -19,6 +19,7 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"github.com/repejota/issues2markdown"
@@ -31,18 +32,25 @@ var RootCmd = &cobra.Command{
 	Short: "Convert a list of issues to markdown",
 	Long:  `issues2markdown converts a list of github issues to markdown list format`,
 	Run: func(cmd *cobra.Command, args []string) {
+		log.SetFlags(0)
+		log.SetOutput(ioutil.Discard)
+
+		log.Println("Fetching data ...")
 		// Fetch data from github
-		issueslist, err := issues2markdown.Fetch()
+		issues, err := issues2markdown.Fetch()
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		log.Println("Rendering data ...")
 		// Render data to markdown
-		markdownlist, err := issues2markdown.Render(issueslist)
+		result, err := issues2markdown.Render(issues)
 		if err != nil {
 			log.Fatal(err)
 		}
-		result := markdownlist.String()
-		fmt.Println(result)
+
+		fmt.Println(result.String())
+
 	},
 }
 
