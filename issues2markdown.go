@@ -31,7 +31,7 @@ import (
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [ ] {{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	issuesTemplate = `{{ range . }}- [ ] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -42,9 +42,25 @@ type User struct {
 
 // Issue ...
 type Issue struct {
-	Title      string
-	HTMLURL    string
-	Repository string
+	Title   string
+	URL     string
+	HTMLURL string
+}
+
+// Organization ...
+func (i *Issue) Organization() (string, error) {
+	parsedU, _ := url.Parse(i.URL)
+	parsedPartsPathU := strings.Split(parsedU.Path, "/")
+	organization := parsedPartsPathU[2]
+	return organization, nil
+}
+
+// Repository ...
+func (i *Issue) Repository() (string, error) {
+	parsedU, _ := url.Parse(i.URL)
+	parsedPartsPathU := strings.Split(parsedU.Path, "/")
+	repository := parsedPartsPathU[3]
+	return repository, nil
 }
 
 // IssuesToMarkdown ...
@@ -59,7 +75,7 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 }
 
 // Query ...
-func (i *IssuesToMarkdown) Query() ([]Issue, error) {
+func (im *IssuesToMarkdown) Query() ([]Issue, error) {
 	// create github client
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: "f8cb77e12d26827e5d235e93cae6bda4796236e1"},
@@ -72,12 +88,12 @@ func (i *IssuesToMarkdown) Query() ([]Issue, error) {
 	if err != nil {
 		return nil, err
 	}
-	i.User.Login = user.GetLogin()
-	log.Printf("Created authenticated data for user: %s\n", i.User.Login)
+	im.User.Login = user.GetLogin()
+	log.Printf("Created authenticated data for user: %s\n", im.User.Login)
 
 	// query issues
 	options := &github.SearchOptions{}
-	query := fmt.Sprintf("state:open type:issue author:%s archived:false", i.User.Login)
+	query := fmt.Sprintf("state:open type:issue author:%s archived:false", im.User.Login)
 	searchResult, _, err := client.Search.Issues(ctx, query, options)
 	if err != nil {
 		return nil, err
@@ -88,13 +104,9 @@ func (i *IssuesToMarkdown) Query() ([]Issue, error) {
 	for _, v := range searchResult.Issues {
 		item := Issue{
 			Title:   *v.Title,
+			URL:     *v.URL,
 			HTMLURL: *v.HTMLURL,
 		}
-		organization, repository, err := i.GetOrgAndRepoFromIssueURL(*v.URL)
-		if err != nil {
-			return nil, err
-		}
-		item.Repository = fmt.Sprintf("%s/%s", organization, repository)
 		result = append(result, item)
 	}
 
@@ -102,7 +114,7 @@ func (i *IssuesToMarkdown) Query() ([]Issue, error) {
 }
 
 // Render ...
-func (i *IssuesToMarkdown) Render(issues []Issue) (string, error) {
+func (im *IssuesToMarkdown) Render(issues []Issue) (string, error) {
 	var compiled bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&compiled, issues)
@@ -112,7 +124,7 @@ func (i *IssuesToMarkdown) Render(issues []Issue) (string, error) {
 }
 
 // GetOrgAndRepoFromIssueURL ...
-func (i *IssuesToMarkdown) GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
+func (im *IssuesToMarkdown) GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
 	parsedU, _ := url.Parse(u)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
 	organization := parsedPartsPathU[2]
