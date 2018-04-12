@@ -35,9 +35,9 @@ type User struct {
 
 // Issue ...
 type Issue struct {
-	Title      *string
+	Title      string
 	Closed     bool
-	HTMLURL    *string
+	HTMLURL    string
 	Repository string
 }
 
@@ -75,13 +75,13 @@ func NewGithubProvider() (*GithubProvider, error) {
 	return provider, nil
 }
 
-// QueryIssues ...
-func (gp *GithubProvider) QueryIssues() ([]Issue, error) {
+// Query ...
+func (gp *GithubProvider) Query() ([]Issue, error) {
 	ctx := context.Background()
 
 	// query issues
 	options := &github.SearchOptions{}
-	query := fmt.Sprintf("is:issue author:%s state:open", gp.User.Login)
+	query := fmt.Sprintf("state:open type:issue author:%s archived:false", gp.User.Login)
 	searchResult, _, err := gp.APIClient.Search.Issues(ctx, query, options)
 	if err != nil {
 		return nil, err
@@ -90,8 +90,8 @@ func (gp *GithubProvider) QueryIssues() ([]Issue, error) {
 	// process query results
 	for _, v := range searchResult.Issues {
 		item := Issue{
-			Title:   v.Title,
-			HTMLURL: v.HTMLURL,
+			Title:   *v.Title,
+			HTMLURL: *v.HTMLURL,
 		}
 		organization, repository, err := gp.getOrgAndRepoFromIssueURL(v.URL)
 		if err != nil {

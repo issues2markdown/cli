@@ -37,7 +37,7 @@ func Fetch() ([]github.Issue, error) {
 		return nil, err
 	}
 	// query issues
-	issuesList, err := provider.QueryIssues()
+	issuesList, err := provider.Query()
 	if err != nil {
 		return nil, err
 	}
