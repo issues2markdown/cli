@@ -18,7 +18,7 @@
 package main
 
 import (
-	"github.com/repejota/ctest"
+	"github.com/repejota/issues2markdown"
 	"github.com/repejota/issues2markdown/cmd"
 )
 
@@ -31,6 +31,6 @@ var (
 
 func main() {
 	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
-	cmd.RootCmd.Version = ctest.ShowVersionInfo(Version, Build)
+	cmd.RootCmd.Version = issues2markdown.ShowVersionInfo(Version, Build)
 	cmd.Execute()
 }
