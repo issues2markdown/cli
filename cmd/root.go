@@ -31,8 +31,13 @@ var RootCmd = &cobra.Command{
 	Short: "Convert a list of issues to markdown",
 	Long:  `issues2markdown converts a list of github issues to markdown list format`,
 	Run: func(cmd *cobra.Command, args []string) {
+		// Fetch data from github
+		issueslist, err := issues2markdown.Fetch()
+		if err != nil {
+			log.Fatal(err)
+		}
 		// Render data to markdown
-		markdownlist, err := issues2markdown.Render()
+		markdownlist, err := issues2markdown.Render(issueslist)
 		if err != nil {
 			log.Fatal(err)
 		}
