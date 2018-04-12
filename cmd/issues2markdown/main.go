@@ -17,7 +17,10 @@
 
 package main
 
-import "fmt"
+import (
+	"github.com/repejota/ctest"
+	"github.com/repejota/issues2markdown/cmd"
+)
 
 var (
 	// Version is the current version number
@@ -27,5 +30,7 @@ var (
 )
 
 func main() {
-	fmt.Println("issues2markdown")
+	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
+	cmd.RootCmd.Version = ctest.ShowVersionInfo(Version, Build)
+	cmd.Execute()
 }
