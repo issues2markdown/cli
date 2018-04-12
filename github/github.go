@@ -36,7 +36,6 @@ type User struct {
 // Issue ...
 type Issue struct {
 	Title      string
-	Closed     bool
 	HTMLURL    string
 	Repository string
 }
