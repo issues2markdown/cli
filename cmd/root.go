@@ -15,22 +15,41 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package main
+package cmd
 
 import (
-	"github.com/repejota/issues2markdown"
-	"github.com/repejota/issues2markdown/cmd"
+	"fmt"
+	"log"
+
+	"github.com/spf13/cobra"
 )
 
-var (
-	// Version is the current version number
-	Version string
-	// Build is the current build id
-	Build string
-)
+// RootCmd represents the base command when called without any subcommands
+var RootCmd = &cobra.Command{
+	Use:   "issues2markdown",
+	Short: "Convert a list of issues to markdown",
+	Long:  `issues2markdown converts a list of github issues to markdown list format`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("issues2markdown")
+	},
+}
 
-func main() {
-	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
-	cmd.RootCmd.Version = issues2markdown.ShowVersionInfo(Version, Build)
-	cmd.Execute()
+// Execute adds all child commands to the root command and sets flags
+// appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() {
+	err := RootCmd.Execute()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func init() {
+	// Setup Cobra
+	cobra.OnInitialize(initConfig)
+}
+
+// initConfig reads in config file and ENV variables if set.
+func initConfig() {
+	// Unimplemented
 }

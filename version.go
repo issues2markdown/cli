@@ -15,22 +15,13 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package main
+package issues2markdown
 
-import (
-	"github.com/repejota/issues2markdown"
-	"github.com/repejota/issues2markdown/cmd"
-)
+import "fmt"
 
-var (
-	// Version is the current version number
-	Version string
-	// Build is the current build id
-	Build string
-)
-
-func main() {
-	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
-	cmd.RootCmd.Version = issues2markdown.ShowVersionInfo(Version, Build)
-	cmd.Execute()
+// ShowVersionInfo returns version and build information
+func ShowVersionInfo(version, build string) string {
+	tpl := "version %s build %s\n"
+	output := fmt.Sprintf(tpl, version, build)
+	return output
 }

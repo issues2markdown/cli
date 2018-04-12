@@ -15,22 +15,20 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package main
+package issues2markdown_test
 
 import (
+	"testing"
+
 	"github.com/repejota/issues2markdown"
-	"github.com/repejota/issues2markdown/cmd"
 )
 
-var (
-	// Version is the current version number
-	Version string
-	// Build is the current build id
-	Build string
-)
-
-func main() {
-	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
-	cmd.RootCmd.Version = issues2markdown.ShowVersionInfo(Version, Build)
-	cmd.Execute()
+func TestShowVersionInfo(t *testing.T) {
+	expectedOutput := "version 1.2.3 build 91b49a2\n"
+	version := "1.2.3"
+	build := "91b49a2"
+	output := issues2markdown.ShowVersionInfo(version, build)
+	if output != expectedOutput {
+		t.Fatalf("Expected output was %q but got %q", expectedOutput, output)
+	}
 }

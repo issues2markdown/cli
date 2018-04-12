@@ -40,7 +40,7 @@ cover-html: cover-profile	## Generate coverage report
 
 .PHONY: coveralls
 coveralls:	## Send coverage report
-	goveralls -service circle-ci -repotoken <token>
+	goveralls -service circle-ci -repotoken Ey1x0WGKBCTsdUgR9GjlY4w1ycHrbv4hP
 
 # Lint
 
@@ -50,10 +50,12 @@ lint:	## Lint source code
 # Dependencies
 
 deps:	## Install package dependencies
+	go get -v -t -d -u github.com/spf13/cobra/cobra
 
 dev-deps:	## Install devellpment dependencies
 	go get -v -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
+	go get -v -t -u github.com/mattn/goveralls
 
 # Cleaning up
 
