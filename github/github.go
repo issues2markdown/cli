@@ -80,9 +80,7 @@ func (gp *GithubProvider) QueryIssues() ([]Issue, error) {
 	ctx := context.Background()
 
 	// query issues
-	options := &github.SearchOptions{
-		Order: "asc",
-	}
+	options := &github.SearchOptions{}
 	query := fmt.Sprintf("is:issue author:%s state:open", gp.User.Login)
 	searchResult, _, err := gp.APIClient.Search.Issues(ctx, query, options)
 	if err != nil {
