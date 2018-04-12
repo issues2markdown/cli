@@ -39,8 +39,8 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 	return i2md
 }
 
-// Fetch ...
-func (i *IssuesToMarkdown) Fetch() ([]github.Issue, error) {
+// Query ...
+func (i *IssuesToMarkdown) Query() ([]github.Issue, error) {
 	// create authenticated client
 	provider, err := github.NewGithubProvider()
 	if err != nil {

@@ -39,7 +39,7 @@ var RootCmd = &cobra.Command{
 
 		log.Println("Fetching data ...")
 		// Fetch data from github
-		issues, err := i2md.Fetch()
+		issues, err := i2md.Query()
 		if err != nil {
 			log.Fatal(err)
 		}
