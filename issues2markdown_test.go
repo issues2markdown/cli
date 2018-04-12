@@ -41,8 +41,7 @@ func TestRender(t *testing.T) {
 	issues = append(issues, issue2)
 
 	expected := `- [ ] organization/repository : [github issue 1](https://github.com/organization/repository/issues/1)
-- [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)
-`
+- [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)`
 	i2md := issues2markdown.NewIssuesToMarkdown()
 	result, err := i2md.Render(issues)
 	if err != nil {
