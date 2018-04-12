@@ -73,6 +73,7 @@ func Execute() {
 func init() {
 	// Setup Cobra
 	cobra.OnInitialize(initConfig)
+	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
 }
 
 // initConfig reads in config file and ENV variables if set.
