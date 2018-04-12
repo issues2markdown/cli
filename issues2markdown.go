@@ -19,17 +19,63 @@ package issues2markdown
 
 import (
 	"bytes"
+	"context"
+	"fmt"
 	"html/template"
+
+	"github.com/google/go-github/github"
 )
 
+// Issue ...
+type Issue struct {
+	Title      *string
+	Closed     bool
+	HTMLURL    *string
+	Repository string
+}
+
+// IssuesList ...
+type IssuesList struct {
+	Issues []Issue
+}
+
 const (
-	issueTemplate = "- [ ] organization/repo : [Issue title](https://github.com/organization/repo/issues/1)"
+	issuesTemplate = `{{ range .Issues }}- [ ] {{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+{{ end }}`
 )
 
 // Render ...
-func Render() (bytes.Buffer, error) {
+func Render(issues IssuesList) (bytes.Buffer, error) {
 	var result bytes.Buffer
-	t := template.Must(template.New("issueslist").Parse(issueTemplate))
-	_ = t.Execute(&result, nil)
+	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
+	_ = t.Execute(&result, issues)
 	return result, nil
+}
+
+// Fetch ...
+func Fetch() (IssuesList, error) {
+	var data IssuesList
+	ctx := context.Background()
+	client := github.NewClient(nil)
+	options := &github.SearchOptions{
+		Sort:  "created",
+		Order: "asc",
+	}
+	result, _, err := client.Search.Issues(ctx, "is:issue state:open", options)
+	if err != nil {
+		return data, err
+	}
+	for _, v := range result.Issues {
+		issue := Issue{
+			Title:   v.Title,
+			HTMLURL: v.HTMLURL,
+		}
+		organization, repository, err := GetOrgAndRepoFromIssueURL(*v.HTMLURL)
+		if err != nil {
+			return data, err
+		}
+		issue.Repository = fmt.Sprintf("%s/%s", organization, repository)
+		data.Issues = append(data.Issues, issue)
+	}
+	return data, nil
 }
