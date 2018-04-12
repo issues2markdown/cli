@@ -15,4 +15,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+// Package issues2markdown queries issues and renders the result to markdown
+// following the Github flavored Markdown task lists format described
+// at https://help.github.com/articles/about-task-lists/.
 package issues2markdown
