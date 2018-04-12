@@ -92,7 +92,7 @@ func (gp *GithubProvider) Query() ([]Issue, error) {
 			Title:   *v.Title,
 			HTMLURL: *v.HTMLURL,
 		}
-		organization, repository, err := gp.getOrgAndRepoFromIssueURL(v.URL)
+		organization, repository, err := gp.GetOrgAndRepoFromIssueURL(*v.URL)
 		if err != nil {
 			return nil, err
 		}
@@ -105,9 +105,9 @@ func (gp *GithubProvider) Query() ([]Issue, error) {
 	return gp.Issues, nil
 }
 
-// getOrgAndRepoFromIssueURL ...
-func (gp *GithubProvider) getOrgAndRepoFromIssueURL(u *string) (string, string, error) {
-	parsedU, err := url.Parse(*u)
+// GetOrgAndRepoFromIssueURL ...
+func (gp *GithubProvider) GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
+	parsedU, err := url.Parse(u)
 	if err != nil {
 		return "", "", err
 	}
