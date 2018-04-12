@@ -48,7 +48,7 @@ func TestRender(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if result.String() != expected {
-		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result.String())
+	if result != expected {
+		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result)
 	}
 }
