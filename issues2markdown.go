@@ -30,6 +30,6 @@ const (
 func Render() (bytes.Buffer, error) {
 	var result bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issueTemplate))
-	t.Execute(&result, nil)
+	_ = t.Execute(&result, nil)
 	return result, nil
 }
