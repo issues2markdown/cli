@@ -62,7 +62,7 @@ var RootCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		fmt.Println(result.String())
+		fmt.Println(result)
 	},
 }
 

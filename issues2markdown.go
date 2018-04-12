@@ -55,9 +55,9 @@ func (i *IssuesToMarkdown) Query() ([]github.Issue, error) {
 }
 
 // Render ...
-func (i *IssuesToMarkdown) Render(issues []github.Issue) (bytes.Buffer, error) {
+func (i *IssuesToMarkdown) Render(issues []github.Issue) (string, error) {
 	var result bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&result, issues)
-	return result, nil
+	return result.String(), nil
 }
