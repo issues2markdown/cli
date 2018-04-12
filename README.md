@@ -6,6 +6,12 @@ Convert a list of issues to markdown
 
 * License [![License][License-Image]][License-Url]
 
+* Test Coverage Master [![Coverage Status](https://coveralls.io/repos/github/repejota/issues2markdown/badge.svg?branch=master)](https://coveralls.io/github/repejota/issues2markdown?branch=master)
+* Test Coverage Develop [![Coverage Status](https://coveralls.io/repos/github/repejota/issues2markdown/badge.svg?branch=develop)](https://coveralls.io/github/repejota/issues2markdown?branch=develop)
+
+* Test Status Master [![CircleCI](https://circleci.com/gh/repejota/issues2markdown/tree/master.svg?style=svg)](https://circleci.com/gh/repejota/issues2markdown/tree/master)
+* Test Status Develop [![CircleCI](https://circleci.com/gh/repejota/issues2markdown/tree/develop.svg?style=svg)](https://circleci.com/gh/repejota/issues2markdown/tree/develop)
+
 * Golang ReportCard [![Go Report Card](https://goreportcard.com/badge/github.com/repejota/issues2markdown)](https://goreportcard.com/report/github.com/repejota/issues2markdown)
 
 ## License

@@ -15,17 +15,41 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package main
+package cmd
 
-import "fmt"
+import (
+	"fmt"
+	"log"
 
-var (
-	// Version is the current version number
-	Version string
-	// Build is the current build id
-	Build string
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	fmt.Println("issues2markdown")
+// RootCmd represents the base command when called without any subcommands
+var RootCmd = &cobra.Command{
+	Use:   "issues2markdown",
+	Short: "Convert a list of issues to markdown",
+	Long:  `issues2markdown converts a list of github issues to markdown list format`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("issues2markdown")
+	},
+}
+
+// Execute adds all child commands to the root command and sets flags
+// appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() {
+	err := RootCmd.Execute()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func init() {
+	// Setup Cobra
+	cobra.OnInitialize(initConfig)
+}
+
+// initConfig reads in config file and ENV variables if set.
+func initConfig() {
+	// Unimplemented
 }
