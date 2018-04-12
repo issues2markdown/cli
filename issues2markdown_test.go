@@ -21,25 +21,22 @@ import (
 	"testing"
 
 	"github.com/repejota/issues2markdown"
-
-	"github.com/repejota/issues2markdown/github"
 )
 
 func TestRender(t *testing.T) {
-	var issues []github.Issue
-	issue1 := github.Issue{
+	var issues []issues2markdown.Issue
+	issue1 := issues2markdown.Issue{
 		Title:      "github issue 1",
 		HTMLURL:    "https://github.com/organization/repository/issues/1",
 		Repository: "organization/repository",
 	}
 	issues = append(issues, issue1)
-	issue2 := github.Issue{
+	issue2 := issues2markdown.Issue{
 		Title:      "github issue 2",
 		HTMLURL:    "https://github.com/organization/repository/issues/2",
 		Repository: "organization/repository",
 	}
 	issues = append(issues, issue2)
-
 	expected := `- [ ] organization/repository : [github issue 1](https://github.com/organization/repository/issues/1)
 - [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)`
 	i2md := issues2markdown.NewIssuesToMarkdown()
@@ -49,5 +46,22 @@ func TestRender(t *testing.T) {
 	}
 	if result != expected {
 		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result)
+	}
+}
+
+func TestGetOrgAndRepoFromIssueURL(t *testing.T) {
+	issueURL := "https://api.github.com/repos/organization/repository/issues/1"
+	i2md := issues2markdown.NewIssuesToMarkdown()
+	expectedOrganization := "organization"
+	expectedRepository := "repository"
+	organization, repository, err := i2md.GetOrgAndRepoFromIssueURL(issueURL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if expectedOrganization != organization {
+		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
+	}
+	if expectedRepository != repository {
+		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
 	}
 }
