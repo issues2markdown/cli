@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/repejota/issues2markdown"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +31,12 @@ var RootCmd = &cobra.Command{
 	Short: "Convert a list of issues to markdown",
 	Long:  `issues2markdown converts a list of github issues to markdown list format`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("issues2markdown")
+		// Render data to markdown
+		result, err := issues2markdown.Render()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(result)
 	},
 }
 
