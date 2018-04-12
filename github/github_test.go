@@ -15,21 +15,4 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package issues2markdown
-
-import (
-	"net/url"
-	"strings"
-)
-
-// GetOrgAndRepoFromIssueURL ...
-func GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
-	parsedU, err := url.Parse(u)
-	if err != nil {
-		return "", "", err
-	}
-	parsedPartsPathU := strings.Split(parsedU.Path, "/")
-	organization := parsedPartsPathU[1]
-	repository := parsedPartsPathU[2]
-	return organization, repository, nil
-}
+package github_test
