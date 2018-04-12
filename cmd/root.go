@@ -38,7 +38,7 @@ var RootCmd = &cobra.Command{
 		i2md := issues2markdown.NewIssuesToMarkdown()
 
 		log.Println("Fetching data ...")
-		// Fetch data from github
+		// Query data from github
 		issues, err := i2md.Query()
 		if err != nil {
 			log.Fatal(err)
