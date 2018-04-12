@@ -81,7 +81,6 @@ func (gp *GithubProvider) QueryIssues() ([]Issue, error) {
 
 	// query issues
 	options := &github.SearchOptions{
-		Sort:  "created",
 		Order: "asc",
 	}
 	query := fmt.Sprintf("is:issue author:%s state:open", gp.User.Login)
