@@ -52,6 +52,7 @@ lint:	## Lint source code
 deps:	## Install package dependencies
 	go get -v -t -d -u github.com/spf13/cobra/cobra
 	go get -v -t -d -u github.com/google/go-github/github
+	go get -v -t -d -u golang.org/x/oauth2
 
 dev-deps:	## Install devellpment dependencies
 	go get -v -t -u github.com/alecthomas/gometalinter
