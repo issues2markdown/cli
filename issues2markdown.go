@@ -17,8 +17,19 @@
 
 package issues2markdown
 
+import (
+	"bytes"
+	"html/template"
+)
+
+const (
+	issueTemplate = "- [ ] organization/repo : [Issue title](https://github.com/organization/repo/issues/1)"
+)
+
 // Render ...
-func Render() (string, error) {
-	result := "- [ ] organization/repo : [Issue title](https://github.com/organization/repo/issues/1)"
+func Render() (bytes.Buffer, error) {
+	var result bytes.Buffer
+	t := template.Must(template.New("issueslist").Parse(issueTemplate))
+	t.Execute(&result, nil)
 	return result, nil
 }
