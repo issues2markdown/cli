@@ -41,14 +41,13 @@ func TestRender(t *testing.T) {
 	issues = append(issues, issue2)
 
 	expected := `- [ ] organization/repository : [github issue 1](https://github.com/organization/repository/issues/1)
-- [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)
-`
+- [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)`
 	i2md := issues2markdown.NewIssuesToMarkdown()
 	result, err := i2md.Render(issues)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if result.String() != expected {
-		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result.String())
+	if result != expected {
+		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result)
 	}
 }

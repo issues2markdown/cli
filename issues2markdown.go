@@ -20,6 +20,7 @@ package issues2markdown
 import (
 	"bytes"
 	"html/template"
+	"strings"
 
 	"github.com/repejota/issues2markdown/github"
 )
@@ -55,9 +56,11 @@ func (i *IssuesToMarkdown) Query() ([]github.Issue, error) {
 }
 
 // Render ...
-func (i *IssuesToMarkdown) Render(issues []github.Issue) (bytes.Buffer, error) {
-	var result bytes.Buffer
+func (i *IssuesToMarkdown) Render(issues []github.Issue) (string, error) {
+	var compiled bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
-	_ = t.Execute(&result, issues)
+	_ = t.Execute(&compiled, issues)
+	result := compiled.String()
+	result = strings.TrimRight(result, "\n") // trim the last linebreak
 	return result, nil
 }
