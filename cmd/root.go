@@ -21,9 +21,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/repejota/issues2markdown"
 	"github.com/spf13/cobra"
+)
+
+var (
+	verboseFlag bool
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -33,24 +38,31 @@ var RootCmd = &cobra.Command{
 	Long:  `issues2markdown converts a list of github issues to markdown list format`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.SetFlags(0)
+
+		// by default logging is off
 		log.SetOutput(ioutil.Discard)
 
-		log.Println("Fetching data ...")
-		// Fetch data from github
-		issues, err := issues2markdown.Fetch()
+		// --verbose
+		// enable logging if verbose mode
+		if verboseFlag {
+			log.SetOutput(os.Stdout)
+		}
+
+		i2md := issues2markdown.NewIssuesToMarkdown()
+
+		log.Println("Querying data ...")
+		issues, err := i2md.Query()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		log.Println("Rendering data ...")
-		// Render data to markdown
-		result, err := issues2markdown.Render(issues)
+		result, err := i2md.Render(issues)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		fmt.Println(result.String())
-
+		fmt.Println(result)
 	},
 }
 
@@ -67,6 +79,7 @@ func Execute() {
 func init() {
 	// Setup Cobra
 	cobra.OnInitialize(initConfig)
+	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
 }
 
 // initConfig reads in config file and ENV variables if set.

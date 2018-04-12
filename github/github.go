@@ -107,10 +107,7 @@ func (gp *GithubProvider) Query() ([]Issue, error) {
 
 // GetOrgAndRepoFromIssueURL ...
 func (gp *GithubProvider) GetOrgAndRepoFromIssueURL(u string) (string, string, error) {
-	parsedU, err := url.Parse(u)
-	if err != nil {
-		return "", "", err
-	}
+	parsedU, _ := url.Parse(u)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
 	organization := parsedPartsPathU[2]
 	repository := parsedPartsPathU[3]
