@@ -22,6 +22,7 @@ import (
 	"context"
 	"html/template"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/google/go-github/github"
@@ -62,7 +63,7 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	// create github client
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: "f8cb77e12d26827e5d235e93cae6bda4796236e1"},
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
 	)
 	ctx := context.Background()
 	tc := oauth2.NewClient(ctx, ts)
