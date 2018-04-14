@@ -15,32 +15,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package github_test
+package issues2markdown
 
-import (
-	"testing"
-
-	"github.com/repejota/issues2markdown/github"
-)
-
-func TestGetOrgAndRepoFromIssueURL(t *testing.T) {
-	issueURL := "https://api.github.com/repos/organization/repository/issues/1"
-
-	client, err := github.NewGithubProvider()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expectedOrganization := "organization"
-	expectedRepository := "repository"
-	organization, repository, err := client.GetOrgAndRepoFromIssueURL(issueURL)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if expectedOrganization != organization {
-		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
-	}
-	if expectedRepository != repository {
-		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
-	}
+// User ...
+type User struct {
+	Login string
 }

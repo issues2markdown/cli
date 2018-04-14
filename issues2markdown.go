@@ -19,19 +19,38 @@ package issues2markdown
 
 import (
 	"bytes"
+	"context"
 	"html/template"
+	"log"
+	"os"
 	"strings"
 
-	"github.com/repejota/issues2markdown/github"
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [ ] {{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	issuesTemplate = `{{ range . }}- [ ] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
+// QueryOptions ...
+type QueryOptions struct {
+}
+
+// BuildQueryString ...
+func (qo *QueryOptions) BuildQueryString() string {
+	result := "type:issue archived:false"
+	return result
+}
+
+// RenderOptions ...
+type RenderOptions struct {
+}
+
 // IssuesToMarkdown ...
 type IssuesToMarkdown struct {
+	User User
 }
 
 // NewIssuesToMarkdown ...
@@ -41,22 +60,46 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 }
 
 // Query ...
-func (i *IssuesToMarkdown) Query() ([]github.Issue, error) {
-	// create authenticated client
-	provider, err := github.NewGithubProvider()
+func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
+	// create github client
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
+	)
+	ctx := context.Background()
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
+	// get user information
+	user, _, err := client.Users.Get(ctx, "")
 	if err != nil {
 		return nil, err
 	}
+	im.User.Login = user.GetLogin()
+	log.Printf("Created authenticated data for user: %s\n", im.User.Login)
+
 	// query issues
-	issuesList, err := provider.Query()
+	githubOptions := &github.SearchOptions{}
+	query := options.BuildQueryString()
+	searchResult, _, err := client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
 		return nil, err
 	}
-	return issuesList, nil
+
+	// process results
+	var result []Issue
+	for _, v := range searchResult.Issues {
+		item := Issue{
+			Title:   *v.Title,
+			URL:     *v.URL,
+			HTMLURL: *v.HTMLURL,
+		}
+		result = append(result, item)
+	}
+
+	return result, nil
 }
 
 // Render ...
-func (i *IssuesToMarkdown) Render(issues []github.Issue) (string, error) {
+func (im *IssuesToMarkdown) Render(issues []Issue, options *RenderOptions) (string, error) {
 	var compiled bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&compiled, issues)
