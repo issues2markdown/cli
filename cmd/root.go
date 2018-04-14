@@ -51,14 +51,15 @@ var RootCmd = &cobra.Command{
 		i2md := issues2markdown.NewIssuesToMarkdown()
 
 		log.Println("Querying data ...")
-		options := &issues2markdown.QueryOptions{}
-		issues, err := i2md.Query(options)
+		qoptions := &issues2markdown.QueryOptions{}
+		issues, err := i2md.Query(qoptions)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		log.Println("Rendering data ...")
-		result, err := i2md.Render(issues)
+		roptions := &issues2markdown.RenderOptions{}
+		result, err := i2md.Render(issues, roptions)
 		if err != nil {
 			log.Fatal(err)
 		}

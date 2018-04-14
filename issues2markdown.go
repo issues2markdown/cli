@@ -43,6 +43,10 @@ func (qo *QueryOptions) BuildQueryString() string {
 	return result
 }
 
+// RenderOptions ...
+type RenderOptions struct {
+}
+
 // IssuesToMarkdown ...
 type IssuesToMarkdown struct {
 	User User
@@ -94,7 +98,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 }
 
 // Render ...
-func (im *IssuesToMarkdown) Render(issues []Issue) (string, error) {
+func (im *IssuesToMarkdown) Render(issues []Issue, options *RenderOptions) (string, error) {
 	var compiled bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
 	_ = t.Execute(&compiled, issues)
