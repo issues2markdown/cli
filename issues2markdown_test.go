@@ -48,20 +48,3 @@ func TestRender(t *testing.T) {
 		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result)
 	}
 }
-
-func TestGetOrgAndRepoFromIssueURL(t *testing.T) {
-	issueURL := "https://api.github.com/repos/organization/repository/issues/1"
-	i2md := issues2markdown.NewIssuesToMarkdown()
-	expectedOrganization := "organization"
-	expectedRepository := "repository"
-	organization, repository, err := i2md.GetOrgAndRepoFromIssueURL(issueURL)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if expectedOrganization != organization {
-		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
-	}
-	if expectedRepository != repository {
-		t.Fatalf("Expected organization: %q but got: %q", expectedOrganization, organization)
-	}
-}
