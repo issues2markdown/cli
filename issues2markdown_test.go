@@ -40,7 +40,8 @@ func TestRender(t *testing.T) {
 	expected := `- [ ] organization/repository : [github issue 1](https://github.com/organization/repository/issues/1)
 - [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)`
 	i2md := issues2markdown.NewIssuesToMarkdown()
-	result, err := i2md.Render(issues)
+	roptions := &issues2markdown.RenderOptions{}
+	result, err := i2md.Render(issues, roptions)
 	if err != nil {
 		t.Fatal(err)
 	}
