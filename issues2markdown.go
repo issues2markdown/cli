@@ -71,15 +71,18 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 		return nil, err
 	}
 	im.User.Login = user.GetLogin()
-	log.Printf("Created authenticated data for user: %s\n", im.User.Login)
+	log.Printf("Created authenticated github API client for user: %s\n", im.User.Login)
 
 	// query issues
+	query := "type:issue state:open state:closed author:repejota"
 	githubOptions := &github.SearchOptions{}
-	listResult, _, err := client.Search.Issues(ctx, "is:open is:issue author:repejota archived:false ", githubOptions)
+	listResult, _, err := client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
 		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
+	log.Printf("Search Query: %s\n", query)
+	log.Printf("Total results: %d\n", *listResult.Total)
 
 	// process results
 	var result []Issue
