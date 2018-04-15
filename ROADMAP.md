@@ -2,8 +2,7 @@
 
 This is the changelog and roadmap for this project.
 
-## Backlog
-
+## Backlog
 - [ ] repejota/issues2markdown : [defaultTemplate should be on RenderOptions](https://github.com/repejota/issues2markdown/issues/34)
 - [ ] repejota/issues2markdown : [github_token should be on QueryOptions](https://github.com/repejota/issues2markdown/issues/33)
 - [ ] repejota/issues2markdown : [Add support for --github-token flag](https://github.com/repejota/issues2markdown/issues/32)
