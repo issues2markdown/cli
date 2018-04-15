@@ -38,12 +38,6 @@ const (
 type QueryOptions struct {
 }
 
-// BuildQueryString ...
-func (qo *QueryOptions) BuildQueryString() string {
-	result := "type:issue archived:false"
-	return result
-}
-
 // RenderOptions ...
 type RenderOptions struct {
 }
@@ -61,16 +55,19 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 
 // Query ...
 func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
+	ctx := context.Background()
+
 	// create github client
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
 	)
-	ctx := context.Background()
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
+
 	// get user information
 	user, _, err := client.Users.Get(ctx, "")
 	if err != nil {
+		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
 	im.User.Login = user.GetLogin()
@@ -78,15 +75,15 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 
 	// query issues
 	githubOptions := &github.SearchOptions{}
-	query := options.BuildQueryString()
-	searchResult, _, err := client.Search.Issues(ctx, query, githubOptions)
+	listResult, _, err := client.Search.Issues(ctx, "is:open is:issue author:repejota archived:false ", githubOptions)
 	if err != nil {
+		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
 
 	// process results
 	var result []Issue
-	for _, v := range searchResult.Issues {
+	for _, v := range listResult.Issues {
 		item := Issue{
 			Title:   *v.Title,
 			URL:     *v.URL,
