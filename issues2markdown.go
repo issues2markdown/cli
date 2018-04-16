@@ -38,6 +38,12 @@ const (
 type QueryOptions struct {
 }
 
+// NewQueryOptions ...
+func NewQueryOptions() *QueryOptions {
+	options := &QueryOptions{}
+	return options
+}
+
 // RenderOptions ...
 type RenderOptions struct {
 }
