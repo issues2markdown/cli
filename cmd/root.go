@@ -51,9 +51,18 @@ var RootCmd = &cobra.Command{
 			log.SetOutput(os.Stdout)
 		}
 
-		i2md, err := issues2markdown.NewIssuesToMarkdown()
+		// Github Token
+		githubToken := os.Getenv("GITHUB_TOKEN")
+		// --github-token
+		if githubTokenFlag != "" {
+			githubToken = githubTokenFlag
+		}
+
+		i2md, err := issues2markdown.NewIssuesToMarkdown(githubToken)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("ERROR: %s\n", err)
+			cmd.Usage()
+			os.Exit(1)
 		}
 
 		log.Println("Querying data ...")
