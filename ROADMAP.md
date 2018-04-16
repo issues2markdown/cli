@@ -1,8 +1,10 @@
-# Roadmap
+Roadmap
+=======
 
 This is the changelog and roadmap for this project.
 
-## Backlog
+0.1.0 (unreleased)
+------------------
 - [ ] repejota/issues2markdown : [defaultQuery should be provided by QueryOptions](https://github.com/repejota/issues2markdown/issues/37)
 - [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
 - [ ] repejota/issues2markdown : [defaultTemplate should be on RenderOptions](https://github.com/repejota/issues2markdown/issues/34)
