@@ -23,7 +23,6 @@ import (
 	"fmt"
 	"html/template"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/google/go-github/github"
@@ -68,19 +67,25 @@ type RenderOptions struct {
 
 // IssuesToMarkdown ...
 type IssuesToMarkdown struct {
-	client   *github.Client
-	Username string
+	client      *github.Client
+	GithubToken string
+	Username    string
 }
 
 // NewIssuesToMarkdown ...
-func NewIssuesToMarkdown() (*IssuesToMarkdown, error) {
-	i2md := &IssuesToMarkdown{}
+func NewIssuesToMarkdown(githubToken string) (*IssuesToMarkdown, error) {
+	i2md := &IssuesToMarkdown{
+		GithubToken: githubToken,
+	}
+	if i2md.GithubToken == "" {
+		return nil, fmt.Errorf("A valid Github Token is required")
+	}
 
 	ctx := context.Background()
 
 	// create github client
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
+		&oauth2.Token{AccessToken: i2md.GithubToken},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 	i2md.client = github.NewClient(tc)
