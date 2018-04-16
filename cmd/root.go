@@ -29,6 +29,7 @@ import (
 
 var (
 	verboseFlag      bool
+	githubTokenFlag  string
 	organizationFlag string
 	repositoryFlag   string
 )
@@ -97,6 +98,7 @@ func init() {
 	// Setup Cobra
 	cobra.OnInitialize(initConfig)
 	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
+	RootCmd.Flags().StringVarP(&githubTokenFlag, "github-token", "", "", "github token")
 	RootCmd.Flags().StringVarP(&organizationFlag, "organization", "o", "", "filter by organization")
 	RootCmd.Flags().StringVarP(&repositoryFlag, "repository", "r", "", "filter by repository")
 }
