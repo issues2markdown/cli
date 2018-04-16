@@ -2,6 +2,9 @@
 
 Convert a list of issues to markdown
 
+Take a look at the [ROADMAP](ROADMAP.md) to folow the current development 
+status.
+
 ## Badges
 
 * License [![License][License-Image]][License-Url]

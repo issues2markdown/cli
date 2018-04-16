@@ -30,7 +30,7 @@ import (
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [ ] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	issuesTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -38,10 +38,16 @@ const (
 type QueryOptions struct {
 }
 
-// BuildQueryString ...
-func (qo *QueryOptions) BuildQueryString() string {
-	result := "type:issue archived:false"
-	return result
+// NewQueryOptions ...
+func NewQueryOptions() *QueryOptions {
+	options := &QueryOptions{}
+	return options
+}
+
+// BuildQuey ...
+func (qo *QueryOptions) BuildQuey() string {
+	query := "type:issue state:open state:closed author:repejota"
+	return query
 }
 
 // RenderOptions ...
@@ -61,34 +67,41 @@ func NewIssuesToMarkdown() *IssuesToMarkdown {
 
 // Query ...
 func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
+	ctx := context.Background()
+
 	// create github client
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
 	)
-	ctx := context.Background()
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
+
 	// get user information
 	user, _, err := client.Users.Get(ctx, "")
 	if err != nil {
+		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
 	im.User.Login = user.GetLogin()
-	log.Printf("Created authenticated data for user: %s\n", im.User.Login)
+	log.Printf("Created authenticated github API client for user: %s\n", im.User.Login)
 
 	// query issues
+	query := options.BuildQuey()
 	githubOptions := &github.SearchOptions{}
-	query := options.BuildQueryString()
-	searchResult, _, err := client.Search.Issues(ctx, query, githubOptions)
+	listResult, _, err := client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
+		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
+	log.Printf("Search Query: %s\n", query)
+	log.Printf("Total results: %d\n", *listResult.Total)
 
 	// process results
 	var result []Issue
-	for _, v := range searchResult.Issues {
+	for _, v := range listResult.Issues {
 		item := Issue{
 			Title:   *v.Title,
+			State:   *v.State,
 			URL:     *v.URL,
 			HTMLURL: *v.HTMLURL,
 		}
