@@ -52,12 +52,12 @@ func NewQueryOptions(username string) *QueryOptions {
 // BuildQuey ...
 func (qo *QueryOptions) BuildQuey() string {
 	query := strings.Builder{}
-	query.WriteString("type:issue state:open state:closed") // whe only want issues
+	_, _ = query.WriteString("type:issue state:open state:closed") // whe only want issues
 	if qo.Repository == "" {
-		query.WriteString(fmt.Sprintf(" org:%s", qo.Organization)) // organization
+		_, _ = query.WriteString(fmt.Sprintf(" org:%s", qo.Organization)) // organization
 	}
 	if qo.Repository != "" {
-		query.WriteString(fmt.Sprintf(" repo:%s/%s", qo.Organization, qo.Repository)) // repository
+		_, _ = query.WriteString(fmt.Sprintf(" repo:%s/%s", qo.Organization, qo.Repository)) // repository
 	}
 	return query.String()
 }
