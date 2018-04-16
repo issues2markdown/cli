@@ -28,7 +28,9 @@ import (
 )
 
 var (
-	verboseFlag bool
+	verboseFlag      bool
+	organizationFlag string
+	repositoryFlag   string
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -48,10 +50,23 @@ var RootCmd = &cobra.Command{
 			log.SetOutput(os.Stdout)
 		}
 
-		i2md := issues2markdown.NewIssuesToMarkdown()
+		i2md, err := issues2markdown.NewIssuesToMarkdown()
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		log.Println("Querying data ...")
-		qoptions := issues2markdown.NewQueryOptions()
+		qoptions := issues2markdown.NewQueryOptions(i2md.Username)
+		// --organization
+		// filter by organization
+		if organizationFlag != "" {
+			qoptions.Organization = organizationFlag
+		}
+		// --repository
+		// filter by repository
+		if repositoryFlag != "" {
+			qoptions.Repository = repositoryFlag
+		}
 		issues, err := i2md.Query(qoptions)
 		if err != nil {
 			log.Fatal(err)
@@ -82,6 +97,8 @@ func init() {
 	// Setup Cobra
 	cobra.OnInitialize(initConfig)
 	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
+	RootCmd.Flags().StringVarP(&organizationFlag, "organization", "o", "", "filter by organization")
+	RootCmd.Flags().StringVarP(&repositoryFlag, "repository", "r", "", "filter by repository")
 }
 
 // initConfig reads in config file and ENV variables if set.

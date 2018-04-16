@@ -16,36 +16,3 @@
 // under the License.
 
 package issues2markdown_test
-
-import (
-	"testing"
-
-	"github.com/repejota/issues2markdown"
-)
-
-func TestRender(t *testing.T) {
-	var issues []issues2markdown.Issue
-	issue1 := issues2markdown.Issue{
-		Title:   "github issue 1",
-		URL:     "https://api.github.com/repos/organization/repository/issues/1",
-		HTMLURL: "https://github.com/organization/repository/issues/1",
-	}
-	issues = append(issues, issue1)
-	issue2 := issues2markdown.Issue{
-		Title:   "github issue 2",
-		URL:     "https://api.github.com/repos/organization/repository/issues/2",
-		HTMLURL: "https://github.com/organization/repository/issues/2",
-	}
-	issues = append(issues, issue2)
-	expected := `- [ ] organization/repository : [github issue 1](https://github.com/organization/repository/issues/1)
-- [ ] organization/repository : [github issue 2](https://github.com/organization/repository/issues/2)`
-	i2md := issues2markdown.NewIssuesToMarkdown()
-	roptions := &issues2markdown.RenderOptions{}
-	result, err := i2md.Render(issues, roptions)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result != expected {
-		t.Fatalf("Expected result: \n%s\n-------\nBut got: \n%s\n", expected, result)
-	}
-}
