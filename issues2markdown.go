@@ -44,6 +44,12 @@ func NewQueryOptions() *QueryOptions {
 	return options
 }
 
+// BuildQuey ...
+func (qo *QueryOptions) BuildQuey() string {
+	query := "type:issue state:open state:closed author:repejota"
+	return query
+}
+
 // RenderOptions ...
 type RenderOptions struct {
 }
@@ -80,7 +86,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	log.Printf("Created authenticated github API client for user: %s\n", im.User.Login)
 
 	// query issues
-	query := "type:issue state:open state:closed author:repejota"
+	query := options.BuildQuey()
 	githubOptions := &github.SearchOptions{}
 	listResult, _, err := client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
