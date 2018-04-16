@@ -20,6 +20,7 @@ package issues2markdown
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -36,18 +37,29 @@ const (
 
 // QueryOptions ...
 type QueryOptions struct {
+	Organization string
+	Repository   string
 }
 
 // NewQueryOptions ...
-func NewQueryOptions() *QueryOptions {
-	options := &QueryOptions{}
+func NewQueryOptions(username string) *QueryOptions {
+	options := &QueryOptions{
+		Organization: username,
+	}
 	return options
 }
 
 // BuildQuey ...
 func (qo *QueryOptions) BuildQuey() string {
-	query := "type:issue state:open state:closed author:repejota"
-	return query
+	query := strings.Builder{}
+	_, _ = query.WriteString("type:issue state:open state:closed") // whe only want issues
+	if qo.Repository == "" {
+		_, _ = query.WriteString(fmt.Sprintf(" org:%s", qo.Organization)) // organization
+	}
+	if qo.Repository != "" {
+		_, _ = query.WriteString(fmt.Sprintf(" repo:%s/%s", qo.Organization, qo.Repository)) // repository
+	}
+	return query.String()
 }
 
 // RenderOptions ...
@@ -56,17 +68,14 @@ type RenderOptions struct {
 
 // IssuesToMarkdown ...
 type IssuesToMarkdown struct {
-	User User
+	client   *github.Client
+	Username string
 }
 
 // NewIssuesToMarkdown ...
-func NewIssuesToMarkdown() *IssuesToMarkdown {
+func NewIssuesToMarkdown() (*IssuesToMarkdown, error) {
 	i2md := &IssuesToMarkdown{}
-	return i2md
-}
 
-// Query ...
-func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	ctx := context.Background()
 
 	// create github client
@@ -74,21 +83,28 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
 	)
 	tc := oauth2.NewClient(ctx, ts)
-	client := github.NewClient(tc)
+	i2md.client = github.NewClient(tc)
 
 	// get user information
-	user, _, err := client.Users.Get(ctx, "")
+	user, _, err := i2md.client.Users.Get(ctx, "")
 	if err != nil {
 		log.Printf("ERROR: %s", err)
 		return nil, err
 	}
-	im.User.Login = user.GetLogin()
-	log.Printf("Created authenticated github API client for user: %s\n", im.User.Login)
+	i2md.Username = user.GetLogin()
+	log.Printf("Created authenticated github API client for user: %s\n", i2md.Username)
+
+	return i2md, nil
+}
+
+// Query ...
+func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
+	ctx := context.Background()
 
 	// query issues
 	query := options.BuildQuey()
 	githubOptions := &github.SearchOptions{}
-	listResult, _, err := client.Search.Issues(ctx, query, githubOptions)
+	listResult, _, err := im.client.Search.Issues(ctx, query, githubOptions)
 	if err != nil {
 		log.Printf("ERROR: %s", err)
 		return nil, err
