@@ -25,6 +25,7 @@ import (
 // Issue ...
 type Issue struct {
 	Title   string
+	State   string
 	URL     string
 	HTMLURL string
 }

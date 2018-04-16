@@ -30,7 +30,7 @@ import (
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [ ] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	issuesTemplate = `{{ range . }}- [{{ if eq .State "closed" }}*{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -89,6 +89,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	for _, v := range listResult.Issues {
 		item := Issue{
 			Title:   *v.Title,
+			State:   *v.State,
 			URL:     *v.URL,
 			HTMLURL: *v.HTMLURL,
 		}
