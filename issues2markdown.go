@@ -30,7 +30,8 @@ import (
 )
 
 const (
-	defaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	// DefaultIssueTemplate ...
+	DefaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -78,7 +79,7 @@ type RenderOptions struct {
 // NewRenderOptions ...
 func NewRenderOptions() *RenderOptions {
 	options := &RenderOptions{
-		TemplateSource: defaultIssueTemplate,
+		TemplateSource: DefaultIssueTemplate,
 	}
 	return options
 }

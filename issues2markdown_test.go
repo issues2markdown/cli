@@ -79,3 +79,11 @@ func TestBuildQueryQueryOptions(t *testing.T) {
 		t.Fatalf("QueryOptions query expected to be %q but got %q", expectedQuery, query)
 	}
 }
+
+func TestInstanceRenderOptions(t *testing.T) {
+	options := issues2markdown.NewRenderOptions()
+	expectedTemplateSource := issues2markdown.DefaultIssueTemplate
+	if options.TemplateSource != expectedTemplateSource {
+		t.Fatalf("Default RenderOptions template source expected to be %q but got %q", expectedTemplateSource, options.TemplateSource)
+	}
+}
