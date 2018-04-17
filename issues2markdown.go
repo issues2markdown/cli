@@ -30,7 +30,7 @@ import (
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	defaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -72,6 +72,15 @@ func (qo *QueryOptions) BuildQuey() string {
 
 // RenderOptions ...
 type RenderOptions struct {
+	TemplateSource string
+}
+
+// NewRenderOptions ...
+func NewRenderOptions() *RenderOptions {
+	options := &RenderOptions{
+		TemplateSource: defaultIssueTemplate,
+	}
+	return options
 }
 
 // IssuesToMarkdown ...
@@ -144,7 +153,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 // Render ...
 func (im *IssuesToMarkdown) Render(issues []Issue, options *RenderOptions) (string, error) {
 	var compiled bytes.Buffer
-	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
+	t := template.Must(template.New("issueslist").Parse(options.TemplateSource))
 	_ = t.Execute(&compiled, issues)
 	result := compiled.String()
 	result = strings.TrimRight(result, "\n") // trim the last linebreak
