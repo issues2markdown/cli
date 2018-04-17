@@ -5,9 +5,9 @@ This is the changelog and roadmap for this project.
 
 ### Guidelines for this ROADMAP:
 
-* A major or medium milestone must be tested at least at 50% of code coverage
-before bump version.
-* Minor versions can be bumped anytime. 
+* A major or minor versions must have a code coverage of 50% before bump 
+a new version.
+* Patch versions can be bumped anytime all tests are passing. 
 
 0.1.0 (unreleased)
 ------------------
