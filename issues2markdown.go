@@ -26,11 +26,11 @@ import (
 	"strings"
 
 	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
 )
 
 const (
-	defaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	// DefaultIssueTemplate ...
+	DefaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .GetOrganization }}/{{ .GetRepository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -78,7 +78,7 @@ type RenderOptions struct {
 // NewRenderOptions ...
 func NewRenderOptions() *RenderOptions {
 	options := &RenderOptions{
-		TemplateSource: defaultIssueTemplate,
+		TemplateSource: DefaultIssueTemplate,
 	}
 	return options
 }
@@ -91,22 +91,12 @@ type IssuesToMarkdown struct {
 }
 
 // NewIssuesToMarkdown ...
-func NewIssuesToMarkdown(githubToken string) (*IssuesToMarkdown, error) {
+func NewIssuesToMarkdown(provider *github.Client) (*IssuesToMarkdown, error) {
 	i2md := &IssuesToMarkdown{
-		GithubToken: githubToken,
-	}
-	if i2md.GithubToken == "" {
-		return nil, fmt.Errorf("A valid Github Token is required")
+		client: provider,
 	}
 
 	ctx := context.Background()
-
-	// create github client
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: i2md.GithubToken},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-	i2md.client = github.NewClient(tc)
 
 	// get user information
 	user, _, err := i2md.client.Users.Get(ctx, "")
