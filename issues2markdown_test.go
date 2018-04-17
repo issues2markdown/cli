@@ -35,9 +35,6 @@ const (
 	baseURLPath = "/api-v3"
 )
 
-type IssuesProvider interface {
-}
-
 func testMethod(t *testing.T, r *http.Request, want string) {
 	if got := r.Method; got != want {
 		t.Errorf("Request method: %v, want %v", got, want)
