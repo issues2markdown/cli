@@ -38,12 +38,14 @@ const (
 type QueryOptions struct {
 	Organization string
 	Repository   string
+	State        string
 }
 
 // NewQueryOptions ...
 func NewQueryOptions(username string) *QueryOptions {
 	options := &QueryOptions{
 		Organization: username,
+		State:        "all",
 	}
 	return options
 }
@@ -51,12 +53,19 @@ func NewQueryOptions(username string) *QueryOptions {
 // BuildQuey ...
 func (qo *QueryOptions) BuildQuey() string {
 	query := strings.Builder{}
-	_, _ = query.WriteString("type:issue state:open state:closed") // whe only want issues
+	_, _ = query.WriteString("type:issue") // whe only want issues
 	if qo.Repository == "" {
 		_, _ = query.WriteString(fmt.Sprintf(" org:%s", qo.Organization)) // organization
 	}
 	if qo.Repository != "" {
 		_, _ = query.WriteString(fmt.Sprintf(" repo:%s/%s", qo.Organization, qo.Repository)) // repository
+	}
+	if qo.State != "" { // issue status
+		if qo.State == "all" {
+			_, _ = query.WriteString(fmt.Sprintf(" state:open state:closed"))
+		} else {
+			_, _ = query.WriteString(fmt.Sprintf(" state:%s", qo.State))
+		}
 	}
 	return query.String()
 }
