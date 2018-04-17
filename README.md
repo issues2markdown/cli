@@ -31,7 +31,7 @@ Show issues from all the repositofies of the organization `orgname`:
 
 	issues2markdown --organization orgname
 	
-## Example output
+### Example output
 
 An example of the output could be:
 
