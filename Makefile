@@ -56,11 +56,12 @@ deps:	## Install package dependencies
 	go get -t -d -u github.com/spf13/cobra/cobra
 	go get -t -d -u github.com/google/go-github/github
 	go get -t -d -u golang.org/x/oauth2
-
+	
 dev-deps:	## Install devellpment dependencies
 	go get -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
 	go get -t -u github.com/mattn/goveralls
+	go get -t -u github.com/inconshreveable/mousetrap
 
 # Cleaning up
 
@@ -92,8 +93,18 @@ dist-darwin:
 	rm -rf ${BINARY}
 
 dist-linux:
+	GOOS=linux GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-linux-amd64.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	GOOS=linux GOARCH=386 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-linux-386.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	rm -rf ${BINARY}
 
 dist-windows:
+	GOOS=windows GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY}.exe ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-amd64.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
+	GOOS=windows GOARCH=386 go build ${LDFLAGS} -o ${BINARY}.exe ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-386.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
+	rm -rf ${BINARY}
 
 dist-clean: clean 	# Clean distribution files
 	rm -rf ${DIST_FOLDER}
