@@ -34,6 +34,6 @@ a new version.
 - [x] repejota/issues2markdown : [Add CircleCI](https://github.com/repejota/issues2markdown/issues/2)
 - [x] repejota/issues2markdown : [ Create common files and dev environment skeleton](https://github.com/repejota/issues2markdown/issues/1)
 
-## Backlog
+## Backlog
 
 - [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
