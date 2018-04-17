@@ -30,6 +30,12 @@ type Issue struct {
 	HTMLURL string
 }
 
+// NewIssue ...
+func NewIssue() *Issue {
+	issue := &Issue{}
+	return issue
+}
+
 // Organization ...
 func (i *Issue) Organization() (string, error) {
 	parsedU, _ := url.Parse(i.URL)

@@ -16,3 +16,13 @@
 // under the License.
 
 package issues2markdown_test
+
+import (
+	"testing"
+
+	"github.com/repejota/issues2markdown"
+)
+
+func TestInstanceIssue(t *testing.T) {
+	_ = issues2markdown.NewIssue()
+}
