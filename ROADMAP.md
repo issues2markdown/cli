@@ -6,7 +6,6 @@ This is the changelog and roadmap for this project.
 0.1.0 (unreleased)
 ------------------
 - [x] repejota/issues2markdown : [defaultQuery should be provided by QueryOptions](https://github.com/repejota/issues2markdown/issues/37)
-- [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
 - [x] repejota/issues2markdown : [defaultTemplate should be on RenderOptions](https://github.com/repejota/issues2markdown/issues/34)
 - [x] repejota/issues2markdown : [github_token should be on QueryOptions](https://github.com/repejota/issues2markdown/issues/33)
 - [x] repejota/issues2markdown : [Add support for --github-token flag](https://github.com/repejota/issues2markdown/issues/32)
@@ -28,3 +27,7 @@ This is the changelog and roadmap for this project.
 - [x] repejota/issues2markdown : [Add Coveralls](https://github.com/repejota/issues2markdown/issues/3)
 - [x] repejota/issues2markdown : [Add CircleCI](https://github.com/repejota/issues2markdown/issues/2)
 - [x] repejota/issues2markdown : [ Create common files and dev environment skeleton](https://github.com/repejota/issues2markdown/issues/1)
+
+## Backlog
+
+- [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
