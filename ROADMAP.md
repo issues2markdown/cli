@@ -3,7 +3,7 @@ Roadmap
 
 This is the changelog and roadmap for this project.
 
-### Guidelines for this ROADMAP:
+### Guidelines for this ROADMAP:
 
 * A major or minor versions must have a code coverage of 50% before bump 
 a new version.
