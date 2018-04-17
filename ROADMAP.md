@@ -7,7 +7,7 @@ This is the changelog and roadmap for this project.
 ------------------
 - [x] repejota/issues2markdown : [defaultQuery should be provided by QueryOptions](https://github.com/repejota/issues2markdown/issues/37)
 - [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
-- [ ] repejota/issues2markdown : [defaultTemplate should be on RenderOptions](https://github.com/repejota/issues2markdown/issues/34)
+- [x] repejota/issues2markdown : [defaultTemplate should be on RenderOptions](https://github.com/repejota/issues2markdown/issues/34)
 - [x] repejota/issues2markdown : [github_token should be on QueryOptions](https://github.com/repejota/issues2markdown/issues/33)
 - [x] repejota/issues2markdown : [Add support for --github-token flag](https://github.com/repejota/issues2markdown/issues/32)
 - [x] repejota/issues2markdown : [Support for state parameter](https://github.com/repejota/issues2markdown/issues/31)
