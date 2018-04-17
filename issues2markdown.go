@@ -29,19 +29,19 @@ import (
 )
 
 const (
-	// DefaultIssueTemplate ...
+	// DefaultIssueTemplate is the default template to render a list of issues in Markdown
 	DefaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .GetOrganization }}/{{ .GetRepository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
-// QueryOptions ...
+// QueryOptions are the available options to modify the query of issues
 type QueryOptions struct {
 	Organization string
 	Repository   string
 	State        string
 }
 
-// NewQueryOptions ...
+// NewQueryOptions creates a new QueryOptions instance with sensible defaults
 func NewQueryOptions(username string) *QueryOptions {
 	options := &QueryOptions{
 		Organization: username,
@@ -50,19 +50,31 @@ func NewQueryOptions(username string) *QueryOptions {
 	return options
 }
 
-// BuildQuey ...
+// BuildQuey builds the query string to query issues
+//
+// It modifies the default query according the proviced query options
 func (qo *QueryOptions) BuildQuey() string {
 	query := strings.Builder{}
-	_, _ = query.WriteString("type:issue") // whe only want issues
+	// whe only want issues
+	_, _ = query.WriteString("type:issue")
+	// organization
 	if qo.Repository == "" {
-		_, _ = query.WriteString(fmt.Sprintf(" org:%s", qo.Organization)) // organization
+		_, _ = query.WriteString(
+			fmt.Sprintf(" org:%s",
+				qo.Organization))
 	}
+	// organization & repository
 	if qo.Repository != "" {
-		_, _ = query.WriteString(fmt.Sprintf(" repo:%s/%s", qo.Organization, qo.Repository)) // repository
+		_, _ = query.WriteString(
+			fmt.Sprintf(" repo:%s/%s",
+				qo.Organization,
+				qo.Repository))
 	}
-	if qo.State != "" { // issue status
+	// issue status
+	if qo.State != "" {
 		if qo.State == "all" {
-			_, _ = query.WriteString(fmt.Sprintf(" state:open state:closed"))
+			_, _ = query.WriteString(
+				fmt.Sprintf(" state:open state:closed"))
 		} else {
 			_, _ = query.WriteString(fmt.Sprintf(" state:%s", qo.State))
 		}
@@ -70,12 +82,12 @@ func (qo *QueryOptions) BuildQuey() string {
 	return query.String()
 }
 
-// RenderOptions ...
+// RenderOptions are the available options to modify the rendering of issues
 type RenderOptions struct {
 	TemplateSource string
 }
 
-// NewRenderOptions ...
+// NewRenderOptions creates a new RenderOptions instance with sensible defaults
 func NewRenderOptions() *RenderOptions {
 	options := &RenderOptions{
 		TemplateSource: DefaultIssueTemplate,
@@ -83,14 +95,16 @@ func NewRenderOptions() *RenderOptions {
 	return options
 }
 
-// IssuesToMarkdown ...
+// IssuesToMarkdown is the main type to interact, query and render issues to
+// Markdown
 type IssuesToMarkdown struct {
 	client      *github.Client
 	GithubToken string
 	Username    string
 }
 
-// NewIssuesToMarkdown ...
+// NewIssuesToMarkdown creates an IssuesToMarkdown instance and gets
+// authentication information
 func NewIssuesToMarkdown(provider *github.Client) (*IssuesToMarkdown, error) {
 	i2md := &IssuesToMarkdown{
 		client: provider,
@@ -110,7 +124,8 @@ func NewIssuesToMarkdown(provider *github.Client) (*IssuesToMarkdown, error) {
 	return i2md, nil
 }
 
-// Query ...
+// Query queries the provider and returns the list of Issues that match
+// the query
 func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	ctx := context.Background()
 
@@ -140,7 +155,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 	return result, nil
 }
 
-// Render ...
+// Render renders a list of Issues to Markdown
 func (im *IssuesToMarkdown) Render(issues []Issue, options *RenderOptions) (string, error) {
 	var compiled bytes.Buffer
 	t := template.Must(template.New("issueslist").Parse(options.TemplateSource))

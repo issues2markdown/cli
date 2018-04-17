@@ -15,9 +15,18 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package issues2markdown
+package issues2markdown_test
 
-// User represents the user credentials information to be used by the provider
-type User struct {
-	Login string
+import (
+	"testing"
+
+	"github.com/repejota/issues2markdown"
+)
+
+func TestInstanceRenderOptions(t *testing.T) {
+	options := issues2markdown.NewRenderOptions()
+	expectedTemplateSource := issues2markdown.DefaultIssueTemplate
+	if options.TemplateSource != expectedTemplateSource {
+		t.Fatalf("Default RenderOptions template source expected to be %q but got %q", expectedTemplateSource, options.TemplateSource)
+	}
 }

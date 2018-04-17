@@ -5,9 +5,11 @@ This is the changelog and roadmap for this project.
 
 ### Guidelines for this ROADMAP:
 
-* A major or minor versions must have a code coverage of 50% before bump 
-a new version.
-* Patch versions can be bumped anytime all tests are passing. 
+* A major or minor versions must have a code coverage of 50% releasing.
+* A major or minor versions must have proper source code documenation before
+releasing.
+* Patch versions can be released only if all tests are passing.
+* Patch versions can be released with poor source documentation parts.  
 
 0.1.0 (unreleased)
 ------------------
