@@ -30,16 +30,22 @@ type Issue struct {
 	HTMLURL string
 }
 
-// Organization ...
-func (i *Issue) Organization() (string, error) {
+// NewIssue ...
+func NewIssue() *Issue {
+	issue := &Issue{}
+	return issue
+}
+
+// GetOrganization ...
+func (i *Issue) GetOrganization() (string, error) {
 	parsedU, _ := url.Parse(i.URL)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
 	organization := parsedPartsPathU[2]
 	return organization, nil
 }
 
-// Repository ...
-func (i *Issue) Repository() (string, error) {
+// GetRepository ...
+func (i *Issue) GetRepository() (string, error) {
 	parsedU, _ := url.Parse(i.URL)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
 	repository := parsedPartsPathU[3]

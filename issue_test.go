@@ -16,3 +16,39 @@
 // under the License.
 
 package issues2markdown_test
+
+import (
+	"testing"
+
+	"github.com/repejota/issues2markdown"
+)
+
+func TestInstanceIssue(t *testing.T) {
+	_ = issues2markdown.NewIssue()
+}
+
+func TestGetOrganizationIssue(t *testing.T) {
+	issue := issues2markdown.NewIssue()
+	issue.URL = "https://api.github.com/repos/octocat/Hello-World/issues/1347"
+	expectedOrganization := "octocat"
+	organization, err := issue.GetOrganization()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if organization != expectedOrganization {
+		t.Fatalf("Expected organization %q but got %q", expectedOrganization, organization)
+	}
+}
+
+func TestGetRepositorynIssue(t *testing.T) {
+	issue := issues2markdown.NewIssue()
+	issue.URL = "https://api.github.com/repos/octocat/Hello-World/issues/1347"
+	expectedOrganization := "Hello-World"
+	organization, err := issue.GetRepository()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if organization != expectedOrganization {
+		t.Fatalf("Expected organization %q but got %q", expectedOrganization, organization)
+	}
+}

@@ -26,11 +26,11 @@ import (
 	"strings"
 
 	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
 )
 
 const (
-	issuesTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .Organization }}/{{ .Repository }} : [{{ .Title }}]({{ .HTMLURL }})
+	// DefaultIssueTemplate ...
+	DefaultIssueTemplate = `{{ range . }}- [{{ if eq .State "closed" }}x{{ else }} {{ end }}] {{ .GetOrganization }}/{{ .GetRepository }} : [{{ .Title }}]({{ .HTMLURL }})
 {{ end }}`
 )
 
@@ -72,6 +72,15 @@ func (qo *QueryOptions) BuildQuey() string {
 
 // RenderOptions ...
 type RenderOptions struct {
+	TemplateSource string
+}
+
+// NewRenderOptions ...
+func NewRenderOptions() *RenderOptions {
+	options := &RenderOptions{
+		TemplateSource: DefaultIssueTemplate,
+	}
+	return options
 }
 
 // IssuesToMarkdown ...
@@ -82,22 +91,12 @@ type IssuesToMarkdown struct {
 }
 
 // NewIssuesToMarkdown ...
-func NewIssuesToMarkdown(githubToken string) (*IssuesToMarkdown, error) {
+func NewIssuesToMarkdown(provider *github.Client) (*IssuesToMarkdown, error) {
 	i2md := &IssuesToMarkdown{
-		GithubToken: githubToken,
-	}
-	if i2md.GithubToken == "" {
-		return nil, fmt.Errorf("A valid Github Token is required")
+		client: provider,
 	}
 
 	ctx := context.Background()
-
-	// create github client
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: i2md.GithubToken},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-	i2md.client = github.NewClient(tc)
 
 	// get user information
 	user, _, err := i2md.client.Users.Get(ctx, "")
@@ -144,7 +143,7 @@ func (im *IssuesToMarkdown) Query(options *QueryOptions) ([]Issue, error) {
 // Render ...
 func (im *IssuesToMarkdown) Render(issues []Issue, options *RenderOptions) (string, error) {
 	var compiled bytes.Buffer
-	t := template.Must(template.New("issueslist").Parse(issuesTemplate))
+	t := template.Must(template.New("issueslist").Parse(options.TemplateSource))
 	_ = t.Execute(&compiled, issues)
 	result := compiled.String()
 	result = strings.TrimRight(result, "\n") // trim the last linebreak

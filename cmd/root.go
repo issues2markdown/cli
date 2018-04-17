@@ -18,13 +18,16 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 
+	"github.com/google/go-github/github"
 	"github.com/repejota/issues2markdown"
 	"github.com/spf13/cobra"
+	"golang.org/x/oauth2"
 )
 
 var (
@@ -58,8 +61,21 @@ var RootCmd = &cobra.Command{
 		if githubTokenFlag != "" {
 			githubToken = githubTokenFlag
 		}
+		if githubToken == "" {
+			fmt.Printf("ERROR: A valid Github Token is required")
+			cmd.Usage()
+			os.Exit(1)
+		}
 
-		i2md, err := issues2markdown.NewIssuesToMarkdown(githubToken)
+		ctx := context.Background()
+		// create github client
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: githubToken},
+		)
+		tc := oauth2.NewClient(ctx, ts)
+		issuesProvider := github.NewClient(tc)
+
+		i2md, err := issues2markdown.NewIssuesToMarkdown(issuesProvider)
 		if err != nil {
 			fmt.Printf("ERROR: %s\n", err)
 			cmd.Usage()
@@ -89,7 +105,7 @@ var RootCmd = &cobra.Command{
 		}
 
 		log.Println("Rendering data ...")
-		roptions := &issues2markdown.RenderOptions{}
+		roptions := issues2markdown.NewRenderOptions()
 		result, err := i2md.Render(issues, roptions)
 		if err != nil {
 			log.Fatal(err)
