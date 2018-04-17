@@ -3,6 +3,12 @@ Roadmap
 
 This is the changelog and roadmap for this project.
 
+### Guidelines for this ROADMAP:
+
+* A major or medium milestone must be tested at least at 50% of code coverage
+before bump version.
+* Minor versions can be bumped anytime. 
+
 0.1.0 (unreleased)
 ------------------
 - [x] repejota/issues2markdown : [defaultQuery should be provided by QueryOptions](https://github.com/repejota/issues2markdown/issues/37)
