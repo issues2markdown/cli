@@ -60,7 +60,6 @@ dev-deps:	## Install devellpment dependencies
 	go get -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
 	go get -t -u github.com/mattn/goveralls
-	go get -t -u github.com/goreleaser/goreleaser
 
 # Cleaning up
 
