@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// Issue ...
+// Issue represents an Issue from the provider
 type Issue struct {
 	Title   string
 	State   string
@@ -30,13 +30,13 @@ type Issue struct {
 	HTMLURL string
 }
 
-// NewIssue ...
+// NewIssue creates an Issue instance with sensible defaults
 func NewIssue() *Issue {
 	issue := &Issue{}
 	return issue
 }
 
-// GetOrganization ...
+// GetOrganization return the organization name for this Issue
 func (i *Issue) GetOrganization() (string, error) {
 	parsedU, _ := url.Parse(i.URL)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
@@ -44,7 +44,7 @@ func (i *Issue) GetOrganization() (string, error) {
 	return organization, nil
 }
 
-// GetRepository ...
+// GetRepository return the repository name for this Issue
 func (i *Issue) GetRepository() (string, error) {
 	parsedU, _ := url.Parse(i.URL)
 	parsedPartsPathU := strings.Split(parsedU.Path, "/")
