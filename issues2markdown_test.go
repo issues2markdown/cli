@@ -41,3 +41,41 @@ func TestIntanceQueryOptions(t *testing.T) {
 		t.Fatalf("Default State filter expected to be %q but got %q", expectedState, options.State)
 	}
 }
+
+func TestBuildQueryQueryOptions(t *testing.T) {
+	options := issues2markdown.NewQueryOptions("username")
+
+	expectedQuery := "type:issue org:username state:open state:closed"
+	query := options.BuildQuey()
+	if query != expectedQuery {
+		t.Fatalf("Default QueryOptions query expected to be %q but got %q", expectedQuery, query)
+	}
+
+	options.Organization = "organization"
+	expectedQuery = "type:issue org:organization state:open state:closed"
+	query = options.BuildQuey()
+	if query != expectedQuery {
+		t.Fatalf("QueryOptions query expected to be %q but got %q", expectedQuery, query)
+	}
+
+	options.Repository = "repository"
+	expectedQuery = "type:issue repo:organization/repository state:open state:closed"
+	query = options.BuildQuey()
+	if query != expectedQuery {
+		t.Fatalf("QueryOptions query expected to be %q but got %q", expectedQuery, query)
+	}
+
+	options.State = "open"
+	expectedQuery = "type:issue repo:organization/repository state:open"
+	query = options.BuildQuey()
+	if query != expectedQuery {
+		t.Fatalf("QueryOptions query expected to be %q but got %q", expectedQuery, query)
+	}
+
+	options.State = "closed"
+	expectedQuery = "type:issue repo:organization/repository state:closed"
+	query = options.BuildQuey()
+	if query != expectedQuery {
+		t.Fatalf("QueryOptions query expected to be %q but got %q", expectedQuery, query)
+	}
+}

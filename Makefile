@@ -20,7 +20,7 @@ version:	## Show version information
 
 .PHONY: test
 test:	## Execute package tests 
-	go test $(PACKAGES)
+	go test -v $(PACKAGES)
 
 .PHONY: cover-profile
 cover-profile:	## Compile tests coverage data
