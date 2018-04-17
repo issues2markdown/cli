@@ -17,7 +17,7 @@
 
 package issues2markdown
 
-// User ...
+// User represents the user credentials information to be used by the provider
 type User struct {
 	Login string
 }
