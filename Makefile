@@ -55,8 +55,6 @@ deps:	## Install package dependencies
 	go get -t -d -u golang.org/x/oauth2
 
 dev-deps:	## Install devellpment dependencies
-	go get -t -u github.com/golang/mock/gomock
-	go get -t -u github.com/golang/mock/mockgen
 	go get -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
 	go get -t -u github.com/mattn/goveralls
