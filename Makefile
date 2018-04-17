@@ -1,7 +1,10 @@
 BINARY=issues2markdown
+MAIN_PACKAGE=cmd/${BINARY}/main.go
+PACKAGES = $(shell go list ./...)
 VERSION=`cat VERSION`
 BUILD=`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:%h -1`
-PACKAGES = $(shell go list ./...)
+DIST_FOLDER=dist
+DIST_INCLUDE_FILES=README.md ROADMAP.md LICENSE VERSION
 
 # Setup the -ldflags option for go build here, interpolate the variable
 # values
@@ -72,6 +75,28 @@ clean:	## Delete generated development environment
 
 godoc-serve:	## Serve documentation (godoc format) for this package at port HTTP 9090
 	godoc -http=":9090"
+
+# Distribution
+
+.PHONY: dist
+dist: clean dist-prepare dist-darwin dist-linux dist-windows	## Generate distribution packages
+
+dist-prepare:
+	mkdir -p dist
+
+dist-darwin:
+	GOOS=darwin GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-darwin-amd64.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	GOOS=darwin GOARCH=386 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-darwin-386.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	rm -rf ${BINARY}
+
+dist-linux:
+
+dist-windows:
+
+dist-clean: clean 	# Clean distribution files
+	rm -rf ${DIST_FOLDER}
 
 .PHONY: help
 help:	## Show this help
