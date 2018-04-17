@@ -38,4 +38,5 @@ releasing.
 
 ## Backlog
 
+- [ ] repejota/issues2markdown : [Add support for appveyer CI (windows)](https://github.com/repejota/issues2markdown/issues/46)
 - [ ] repejota/issues2markdown : [Implement pagination on default query](https://github.com/repejota/issues2markdown/issues/35)
