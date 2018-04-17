@@ -39,3 +39,16 @@ func TestGetOrganizationIssue(t *testing.T) {
 		t.Fatalf("Expected organization %q but got %q", expectedOrganization, organization)
 	}
 }
+
+func TestGetRepositorynIssue(t *testing.T) {
+	issue := issues2markdown.NewIssue()
+	issue.URL = "https://api.github.com/repos/octocat/Hello-World/issues/1347"
+	expectedOrganization := "Hello-World"
+	organization, err := issue.GetRepository()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if organization != expectedOrganization {
+		t.Fatalf("Expected organization %q but got %q", expectedOrganization, organization)
+	}
+}
