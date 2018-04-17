@@ -89,7 +89,7 @@ var RootCmd = &cobra.Command{
 		}
 
 		log.Println("Rendering data ...")
-		roptions := &issues2markdown.RenderOptions{}
+		roptions := issues2markdown.NewRenderOptions()
 		result, err := i2md.Render(issues, roptions)
 		if err != nil {
 			log.Fatal(err)
