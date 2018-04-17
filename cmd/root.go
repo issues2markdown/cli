@@ -32,6 +32,7 @@ var (
 	githubTokenFlag  string
 	organizationFlag string
 	repositoryFlag   string
+	stateFlag        string
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -77,6 +78,11 @@ var RootCmd = &cobra.Command{
 		if repositoryFlag != "" {
 			qoptions.Repository = repositoryFlag
 		}
+		// --state
+		// filter by issue state
+		qoptions.State = stateFlag
+
+		// execute query
 		issues, err := i2md.Query(qoptions)
 		if err != nil {
 			log.Fatal(err)
@@ -110,6 +116,7 @@ func init() {
 	RootCmd.Flags().StringVarP(&githubTokenFlag, "github-token", "", "", "github token")
 	RootCmd.Flags().StringVarP(&organizationFlag, "organization", "o", "", "filter by organization")
 	RootCmd.Flags().StringVarP(&repositoryFlag, "repository", "r", "", "filter by repository")
+	RootCmd.Flags().StringVarP(&stateFlag, "state", "", "all", "filter by issue state")
 }
 
 // initConfig reads in config file and ENV variables if set.
