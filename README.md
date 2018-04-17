@@ -5,6 +5,51 @@ Convert a list of issues to markdown
 Take a look at the [ROADMAP](ROADMAP.md) to folow the current development 
 status.
 
+## Installation
+
+Once you have [installed Go](http://golang.org/doc/install.html#releases), run these commands to install the gomock package and the mockgen tool:
+
+	go get github.com/repejota/issues2markdown
+	
+## Documentation
+
+Execute the following command to get the provided command line tool usage information:
+
+	issues2markdown --help
+	
+## Examples
+
+Show my issues:
+
+	issues2markdown 
+
+Show issues from the repository `orgname/reponame`:
+
+	issues2markdown --organization orgname --repository reponame
+	
+Show issues from all the repositofies of the organization `orgname`:
+
+	issues2markdown --organization orgname
+	
+## Example output
+
+An example of the output could be:
+
+```markdown
+- [ ] orgname/reponame : [Issue Title 1](https://github.com/orgname/reponame/issues/1)
+- [x] orgname/reponame : [Issue Title 2](https://github.com/orgname/reponame/issues/2)
+- [x] orgname/reponame : [Issue Title 3](https://github.com/orgname/reponame/issues/3)
+- [ ] orgname/reponame2 : [Issue Title 1](https://github.com/orgname/reponame2/issues/1)
+```
+
+Which will render as:
+
+- [ ] orgname/reponame : [Issue Title 1](https://github.com/orgname/reponame/issues/1)
+- [x] orgname/reponame : [Issue Title 2](https://github.com/orgname/reponame/issues/2)
+- [x] orgname/reponame : [Issue Title 3](https://github.com/orgname/reponame/issues/3)
+- [ ] orgname/reponame2 : [Issue Title 1](https://github.com/orgname/reponame2/issues/1)
+
+
 ## Badges
 
 * License [![License][License-Image]][License-Url]
