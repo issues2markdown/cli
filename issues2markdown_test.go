@@ -16,3 +16,28 @@
 // under the License.
 
 package issues2markdown_test
+
+import (
+	"testing"
+
+	"github.com/repejota/issues2markdown"
+)
+
+func TestIntanceQueryOptions(t *testing.T) {
+	options := issues2markdown.NewQueryOptions("username")
+
+	expectedOrganization := "username"
+	if options.Organization != expectedOrganization {
+		t.Fatalf("Default Organization filter expected to be %q but got %q", expectedOrganization, options.Organization)
+	}
+
+	expectedRepository := ""
+	if options.Repository != expectedRepository {
+		t.Fatalf("Default Repository filter expected to be %q but got %q", expectedRepository, options.Repository)
+	}
+
+	expectedState := "all"
+	if options.State != expectedState {
+		t.Fatalf("Default State filter expected to be %q but got %q", expectedState, options.State)
+	}
+}
