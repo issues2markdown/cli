@@ -61,7 +61,7 @@ dev-deps:	## Install devellpment dependencies
 	go get -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
 	go get -t -u github.com/mattn/goveralls
-	go get -t -u github.com/inconshreveable/mousetrap
+	go get -t vi-u github.com/inconshreveable/mousetrap
 
 # Cleaning up
 
@@ -70,7 +70,6 @@ clean:	## Delete generated development environment
 	go clean
 	rm -rf ${BINARY}
 	rm -rf coverage-all.out
-	rm -rf ${BINARY}-*
 
 # Docs
 
@@ -104,7 +103,7 @@ dist-windows:
 	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-amd64.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
 	GOOS=windows GOARCH=386 go build ${LDFLAGS} -o ${BINARY}.exe ${MAIN_PACKAGE}
 	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-386.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
-	rm -rf ${BINARY}
+	rm -rf ${BINARY}.exe
 
 dist-clean: clean 	# Clean distribution files
 	rm -rf ${DIST_FOLDER}
