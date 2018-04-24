@@ -15,39 +15,40 @@ Once you have [installed Go](http://golang.org/doc/install.html#releases), run t
 
 Execute the following command to get the provided command line tool usage information:
 
-	issues2markdown --help
-	
-## Examples
+```
+$ issues2markdown --help
+issues2markdown converts a list of github issues to markdown list format
 
-Show my issues:
+Usage:
+issues2markdown [flags]
 
-	issues2markdown 
-
-Show issues from the repository `orgname/reponame`:
-
-	issues2markdown --organization orgname --repository reponame
-	
-Show issues from all the repositofies of the organization `orgname`:
-
-	issues2markdown --organization orgname
+Flags:
+    --github-token string   github token
+-h, --help                  help for issues2markdown
+-o, --organization string   filter by organization
+-r, --repository string     filter by repository
+    --state string          filter by issue state (default "all")
+-v, --verbose               enable verbose mode
+    --version               version for issues2markdown
+```
 	
 ### Example output
 
 An example of the output could be:
 
 ```markdown
-- [ ] orgname/reponame : [Issue Title 1](https://github.com/orgname/reponame/issues/1)
-- [x] orgname/reponame : [Issue Title 2](https://github.com/orgname/reponame/issues/2)
-- [x] orgname/reponame : [Issue Title 3](https://github.com/orgname/reponame/issues/3)
-- [ ] orgname/reponame2 : [Issue Title 1](https://github.com/orgname/reponame2/issues/1)
+- [ ] org/repo : [Issue Title 1](https://github.com/org/repo/issues/1)
+- [x] org/repo : [Issue Title 2](https://github.com/org/repo/issues/2)
+- [x] org/repo : [Issue Title 3](https://github.com/org/repo/issues/3)
+- [ ] org/repo2 : [Issue Title 1](https://github.com/org/repo2/issues/1)
 ```
 
 Which will render as:
 
-- [ ] orgname/reponame : [Issue Title 1](https://github.com/orgname/reponame/issues/1)
-- [x] orgname/reponame : [Issue Title 2](https://github.com/orgname/reponame/issues/2)
-- [x] orgname/reponame : [Issue Title 3](https://github.com/orgname/reponame/issues/3)
-- [ ] orgname/reponame2 : [Issue Title 1](https://github.com/orgname/reponame2/issues/1)
+- [ ] org/repo : [Issue Title 1](https://github.com/org/repo/issues/1)
+- [x] org/repo : [Issue Title 2](https://github.com/org/repo/issues/2)
+- [x] org/repo : [Issue Title 3](https://github.com/org/repo/issues/3)
+- [ ] org/repo2 : [Issue Title 1](https://github.com/org/repo2/issues/1)
 
 
 ## Badges
