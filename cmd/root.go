@@ -62,7 +62,7 @@ var RootCmd = &cobra.Command{
 			githubToken = githubTokenFlag
 		}
 		if githubToken == "" {
-			fmt.Printf("ERROR: A valid Github Token is required")
+			fmt.Printf("ERROR: A valid Github Token is required\n")
 			cmd.Usage()
 			os.Exit(1)
 		}
