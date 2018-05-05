@@ -1,4 +1,4 @@
-// Copyright 2018 The issues2markdown Authors. All rights reserved.
+// Copyright 2018 The cli Authors. All rights reserved.
 //
 // Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements.  See the NOTICE file distributed with this
@@ -18,4 +18,4 @@
 // Package issues2markdown queries issues and renders the result to markdown
 // following the Github flavored Markdown task lists format described
 // at https://help.github.com/articles/about-task-lists/.
-package issues2markdown
+package cli

@@ -18,8 +18,8 @@
 package main
 
 import (
-	"github.com/repejota/issues2markdown"
-	"github.com/repejota/issues2markdown/cmd"
+	"github.com/issues2markdown/cli"
+	"github.com/issues2markdown/cli/cmd"
 )
 
 var (
@@ -31,6 +31,6 @@ var (
 
 func main() {
 	cmd.RootCmd.SetVersionTemplate(`{{with .Name}}{{printf "%s " .}}{{end}}{{printf "%s" .Version}}`)
-	cmd.RootCmd.Version = issues2markdown.ShowVersionInfo(Version, Build)
+	cmd.RootCmd.Version = cli.ShowVersionInfo(Version, Build)
 	cmd.Execute()
 }

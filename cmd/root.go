@@ -25,7 +25,7 @@ import (
 	"os"
 
 	"github.com/google/go-github/github"
-	"github.com/repejota/issues2markdown"
+	"github.com/issues2markdown/issues2markdown"
 	"github.com/spf13/cobra"
 	"golang.org/x/oauth2"
 )

@@ -15,7 +15,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package issues2markdown
+package cli
 
 import "fmt"
 
