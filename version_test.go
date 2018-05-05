@@ -15,7 +15,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package issues2markdown_test
+package cli_test
 
 import (
 	"testing"

@@ -25,7 +25,7 @@ import (
 	"os"
 
 	"github.com/google/go-github/github"
-	"github.com/repejota/issues2markdown"
+	"github.com/issues2markdown/issues2markdown"
 	"github.com/spf13/cobra"
 	"golang.org/x/oauth2"
 )
@@ -62,7 +62,7 @@ var RootCmd = &cobra.Command{
 			githubToken = githubTokenFlag
 		}
 		if githubToken == "" {
-			fmt.Printf("ERROR: A valid Github Token is required")
+			fmt.Printf("ERROR: A valid Github Token is required\n")
 			cmd.Usage()
 			os.Exit(1)
 		}

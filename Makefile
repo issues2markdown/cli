@@ -26,7 +26,7 @@ test:	## Execute package tests
 	go test -v $(PACKAGES)
 
 .PHONY: cover-profile
-cover-profile:	## Compile tests coverage data
+cover-profile:
 	echo "mode: count" > coverage-all.out
 	$(foreach pkg,$(PACKAGES),\
 		go test -coverprofile=coverage.out -covermode=count $(pkg);\
@@ -42,7 +42,7 @@ cover-html: cover-profile	## Generate coverage report
 	go tool cover -html=coverage-all.out
 
 .PHONY: coveralls
-coveralls:	## Send coverage report
+coveralls:
 	goveralls -service circle-ci -repotoken Ey1x0WGKBCTsdUgR9GjlY4w1ycHrbv4hP
 
 # Lint
@@ -56,11 +56,12 @@ deps:	## Install package dependencies
 	go get -t -d -u github.com/spf13/cobra/cobra
 	go get -t -d -u github.com/google/go-github/github
 	go get -t -d -u golang.org/x/oauth2
-
-dev-deps:	## Install devellpment dependencies
+	
+dev-deps:	## Install dev dependencies
+	go get -t -u github.com/mattn/goveralls
+	go get -t -u github.com/inconshreveable/mousetrap
 	go get -t -u github.com/alecthomas/gometalinter
 	gometalinter --install
-	go get -t -u github.com/mattn/goveralls
 
 # Cleaning up
 
@@ -68,8 +69,8 @@ dev-deps:	## Install devellpment dependencies
 clean:	## Delete generated development environment
 	go clean
 	rm -rf ${BINARY}
+	rm -rf ${BINARY}.exe
 	rm -rf coverage-all.out
-	rm -rf ${BINARY}-*
 
 # Docs
 
@@ -92,8 +93,18 @@ dist-darwin:
 	rm -rf ${BINARY}
 
 dist-linux:
+	GOOS=linux GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-linux-amd64.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	GOOS=linux GOARCH=386 go build ${LDFLAGS} -o ${BINARY} ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-linux-386.zip ${BINARY} ${DIST_INCLUDE_FILES}
+	rm -rf ${BINARY}
 
 dist-windows:
+	GOOS=windows GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY}.exe ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-amd64.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
+	GOOS=windows GOARCH=386 go build ${LDFLAGS} -o ${BINARY}.exe ${MAIN_PACKAGE}
+	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-386.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
+	rm -rf ${BINARY}.exe
 
 dist-clean: clean 	# Clean distribution files
 	rm -rf ${DIST_FOLDER}
