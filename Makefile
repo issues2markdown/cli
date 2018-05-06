@@ -43,7 +43,7 @@ cover-html: cover-profile	## Generate coverage report
 
 .PHONY: coveralls
 coveralls:
-	goveralls -service circle-ci -repotoken Ey1x0WGKBCTsdUgR9GjlY4w1ycHrbv4hP
+	goveralls -service circle-ci -repotoken IH7f2SucxjjuYUKlkUVoUQKWbPdfhLmjE
 
 # Lint
 
@@ -54,8 +54,7 @@ lint:	## Lint source code
 
 deps:	## Install package dependencies
 	go get -t -d -u github.com/spf13/cobra/cobra
-	go get -t -d -u github.com/google/go-github/github
-	go get -t -d -u golang.org/x/oauth2
+	go get -t -d -u github.com/issues2markdown/issues2markdown
 	
 dev-deps:	## Install dev dependencies
 	go get -t -u github.com/mattn/goveralls

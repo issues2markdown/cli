@@ -20,14 +20,14 @@ package cli_test
 import (
 	"testing"
 
-	"github.com/repejota/issues2markdown"
+	"github.com/issues2markdown/cli"
 )
 
 func TestShowVersionInfo(t *testing.T) {
 	expectedOutput := "version 1.2.3 build 91b49a2\n"
 	version := "1.2.3"
 	build := "91b49a2"
-	output := issues2markdown.ShowVersionInfo(version, build)
+	output := cli.ShowVersionInfo(version, build)
 	if output != expectedOutput {
 		t.Fatalf("Expected output was %q but got %q", expectedOutput, output)
 	}
