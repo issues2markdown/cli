@@ -65,9 +65,12 @@ var RootCmd = &cobra.Command{
 		}
 
 		ctx := context.Background()
+
 		// create github client
 		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: githubToken},
+			&oauth2.Token{
+				AccessToken: githubToken,
+			},
 		)
 		tc := oauth2.NewClient(ctx, ts)
 		issuesProvider := github.NewClient(tc)
@@ -80,7 +83,8 @@ var RootCmd = &cobra.Command{
 		}
 
 		log.Println("Querying data ...")
-		qoptions := issues2markdown.NewQueryOptions(i2md.Username)
+		qoptions := issues2markdown.NewQueryOptions()
+		qoptions.Organization = i2md.Username
 
 		// execute query
 		issues, err := i2md.Query(qoptions)
