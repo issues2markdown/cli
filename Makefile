@@ -53,14 +53,14 @@ lint:	## Lint source code
 # Dependencies
 
 deps:	## Install package dependencies
-	go get -t -d -u github.com/spf13/cobra/cobra
-	go get -t -d -u golang.org/x/oauth2
-	go get -t -d -u github.com/issues2markdown/issues2markdown
+	go get -u github.com/spf13/cobra/cobra
+	go get -u golang.org/x/oauth2
+	go get -u github.com/issues2markdown/issues2markdown
 	
 dev-deps:	## Install dev dependencies
-	go get -t -u github.com/mattn/goveralls
-	go get -t -u github.com/inconshreveable/mousetrap
-	go get -t -u github.com/alecthomas/gometalinter
+	go get -u github.com/mattn/goveralls
+	go get -u github.com/inconshreveable/mousetrap
+	go get -u github.com/alecthomas/gometalinter
 	gometalinter --install
 
 # Cleaning up
