@@ -31,11 +31,8 @@ import (
 )
 
 var (
-	verboseFlag      bool
-	githubTokenFlag  string
-	organizationFlag string
-	repositoryFlag   string
-	stateFlag        string
+	verboseFlag     bool
+	githubTokenFlag string
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -68,9 +65,12 @@ var RootCmd = &cobra.Command{
 		}
 
 		ctx := context.Background()
+
 		// create github client
 		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: githubToken},
+			&oauth2.Token{
+				AccessToken: githubToken,
+			},
 		)
 		tc := oauth2.NewClient(ctx, ts)
 		issuesProvider := github.NewClient(tc)
@@ -83,20 +83,8 @@ var RootCmd = &cobra.Command{
 		}
 
 		log.Println("Querying data ...")
-		qoptions := issues2markdown.NewQueryOptions(i2md.Username)
-		// --organization
-		// filter by organization
-		if organizationFlag != "" {
-			qoptions.Organization = organizationFlag
-		}
-		// --repository
-		// filter by repository
-		if repositoryFlag != "" {
-			qoptions.Repository = repositoryFlag
-		}
-		// --state
-		// filter by issue state
-		qoptions.State = stateFlag
+		qoptions := issues2markdown.NewQueryOptions()
+		qoptions.Organization = i2md.Username
 
 		// execute query
 		issues, err := i2md.Query(qoptions)
@@ -130,9 +118,6 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
 	RootCmd.Flags().StringVarP(&githubTokenFlag, "github-token", "", "", "github token")
-	RootCmd.Flags().StringVarP(&organizationFlag, "organization", "o", "", "filter by organization")
-	RootCmd.Flags().StringVarP(&repositoryFlag, "repository", "r", "", "filter by repository")
-	RootCmd.Flags().StringVarP(&stateFlag, "state", "", "all", "filter by issue state")
 }
 
 // initConfig reads in config file and ENV variables if set.
