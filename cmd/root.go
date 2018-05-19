@@ -23,6 +23,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/google/go-github/github"
 	"github.com/issues2markdown/issues2markdown"
@@ -87,7 +88,7 @@ var RootCmd = &cobra.Command{
 		qoptions.Organization = i2md.Username
 
 		// execute query
-		issues, err := i2md.Query(qoptions)
+		issues, err := i2md.Query(qoptions, strings.Join(args, " "))
 		if err != nil {
 			log.Fatal(err)
 		}
