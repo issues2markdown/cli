@@ -5,9 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/issues2markdown/cli/badge.svg?branch=develop)](https://coveralls.io/github/issues2markdown/cli?branch=develop)
 [![Go Report Card](https://goreportcard.com/badge/github.com/issues2markdown/cli)](https://goreportcard.com/report/github.com/issues2markdown/cli)
 
-Convert a list of issues to markdown
-
-Take a look at the [ROADMAP](ROADMAP.md) to folow the current development status.
+Convert a list of issues to markdown.
 
 ## Installation
 
