@@ -1,21 +1,27 @@
 # issues2markdown
 
+[![License][License-Image]][License-Url]
+[![CircleCI](https://circleci.com/gh/issues2markdown/cli.svg?style=svg)](https://circleci.com/gh/issues2markdown/cli)
+[![Coverage Status](https://coveralls.io/repos/github/issues2markdown/cli/badge.svg?branch=develop)](https://coveralls.io/github/issues2markdown/cli?branch=develop)
+[![Go Report Card](https://goreportcard.com/badge/github.com/repejota/issues2markdown)](https://goreportcard.com/report/github.com/repejota/issues2markdown)
+
 Convert a list of issues to markdown
 
-Take a look at the [ROADMAP](ROADMAP.md) to folow the current development 
-status.
+Take a look at the [ROADMAP](ROADMAP.md) to folow the current development status.
 
 ## Installation
 
 Once you have [installed Go](http://golang.org/doc/install.html#releases), run these commands to install the gomock package and the mockgen tool:
 
-	go get github.com/repejota/issues2markdown
-	
+```bash
+go get github.com/repejota/issues2markdown
+```
+
 ## Documentation
 
 Execute the following command to get the provided command line tool usage information:
 
-```
+```bash
 $ issues2markdown --help
 issues2markdown converts a list of github issues to markdown list format
 
@@ -31,7 +37,7 @@ Flags:
 -v, --verbose               enable verbose mode
     --version               version for issues2markdown
 ```
-	
+
 ### Example output
 
 An example of the output could be:
@@ -49,19 +55,6 @@ Which will render as:
 - [x] org/repo : [Issue Title 2](https://github.com/org/repo/issues/2)
 - [x] org/repo : [Issue Title 3](https://github.com/org/repo/issues/3)
 - [ ] org/repo2 : [Issue Title 1](https://github.com/org/repo2/issues/1)
-
-
-## Badges
-
-* License [![License][License-Image]][License-Url]
-
-* Test Coverage Master [![Coverage Status](https://coveralls.io/repos/github/repejota/issues2markdown/badge.svg?branch=master)](https://coveralls.io/github/repejota/issues2markdown?branch=master)
-* Test Coverage Develop [![Coverage Status](https://coveralls.io/repos/github/repejota/issues2markdown/badge.svg?branch=develop)](https://coveralls.io/github/repejota/issues2markdown?branch=develop)
-
-* Test Status Master [![CircleCI](https://circleci.com/gh/repejota/issues2markdown/tree/master.svg?style=svg)](https://circleci.com/gh/repejota/issues2markdown/tree/master)
-* Test Status Develop [![CircleCI](https://circleci.com/gh/repejota/issues2markdown/tree/develop.svg?style=svg)](https://circleci.com/gh/repejota/issues2markdown/tree/develop)
-
-* Golang ReportCard [![Go Report Card](https://goreportcard.com/badge/github.com/repejota/issues2markdown)](https://goreportcard.com/report/github.com/repejota/issues2markdown)
 
 ## License
 
