@@ -11,10 +11,10 @@ Take a look at the [ROADMAP](ROADMAP.md) to folow the current development status
 
 ## Installation
 
-Once you have [installed Go](http://golang.org/doc/install.html#releases), run these commands to install the gomock package and the mockgen tool:
+Once you have [installed Go](http://golang.org/doc/install.html#releases), run these commands to install `issues2markdown` tool:
 
 ```bash
-go get github.com/repejota/issues2markdown
+go get github.com/issues2markdown/cli
 ```
 
 ## Documentation
@@ -26,16 +26,13 @@ $ issues2markdown --help
 issues2markdown converts a list of github issues to markdown list format
 
 Usage:
-issues2markdown [flags]
+  issues2markdown [flags]
 
 Flags:
-    --github-token string   github token
--h, --help                  help for issues2markdown
--o, --organization string   filter by organization
--r, --repository string     filter by repository
-    --state string          filter by issue state (default "all")
--v, --verbose               enable verbose mode
-    --version               version for issues2markdown
+      --github-token string   github token
+  -h, --help                  help for issues2markdown
+  -v, --verbose               enable verbose mode
+      --version               version for issues2markdown
 ```
 
 ### Example output
