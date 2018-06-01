@@ -1,7 +1,7 @@
 # issues2markdown
 
 [![License][License-Image]][License-Url]
-[![CircleCI](https://circleci.com/gh/issues2markdown/cli.svg?style=svg)](https://circleci.com/gh/issues2markdown/cli)
+[![Coverage Status](https://coveralls.io/repos/github/issues2markdown/cli/badge.svg?branch=master)](https://coveralls.io/github/issues2markdown/cli?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/issues2markdown/cli/badge.svg?branch=develop)](https://coveralls.io/github/issues2markdown/cli?branch=develop)
 [![Go Report Card](https://goreportcard.com/badge/github.com/issues2markdown/cli)](https://goreportcard.com/report/github.com/issues2markdown/cli)
 
