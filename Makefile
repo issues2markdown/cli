@@ -55,6 +55,7 @@ lint:		## Lint source code
 # Dependencies
 
 deps:		## Install package dependencies
+	go get -u github.com/fatih/color
 	go get -u github.com/spf13/cobra/cobra
 	go get -u golang.org/x/oauth2
 	go get -u github.com/issues2markdown/issues2markdown
