@@ -85,7 +85,7 @@ var RootCmd = &cobra.Command{
 
 		log.Println("Querying data ...")
 		qoptions := issues2markdown.NewQueryOptions()
-		qoptions.Organization = i2md.Username
+		qoptions.Organization = i2md.User.GetLogin()
 
 		// execute query
 		issues, err := i2md.Query(qoptions, strings.Join(args, " "))
