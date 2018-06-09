@@ -25,6 +25,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/google/go-github/github"
 	"github.com/issues2markdown/issues2markdown"
 	"github.com/spf13/cobra"
@@ -78,7 +79,7 @@ var RootCmd = &cobra.Command{
 
 		i2md, err := issues2markdown.NewIssuesToMarkdown(issuesProvider)
 		if err != nil {
-			fmt.Printf("ERROR: %s\n", err)
+			fmt.Printf(color.RedString("ERROR: %s\n", err))
 			cmd.Usage()
 			os.Exit(1)
 		}
